@@ -11,7 +11,7 @@
     <title>{{ $title }}</title>
 </head>
 <body class="h-full">
-    <x-nav />
+    <x-nav username="{{ Auth::user()->username ?? '' }}" />
     {{ $slot }}
 </body>
 </html>

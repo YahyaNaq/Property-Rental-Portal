@@ -95,23 +95,23 @@
                 <div class="space-y-6">
                     <div class="flex justify-center gap-2">
                         <h5 class="tracking-tight">Already have an account?</h5>
-                        <a href="/register" class="font-semibold text-indigo-900 hover:scale-x-[1.025]">Login here!</a>
+                        <a href="/login" class="font-semibold text-indigo-900 hover:scale-x-[1.025]">Login here!</a>
                     </div>
-                    <div class="inline-flex items-center justify-center w-full">
+                    {{-- <div class="inline-flex items-center justify-center w-full">
                         <hr class="w-80 bg-gray-500 border-1.5">
                         <div class="absolute px-2.5 -translate-x-1/2 bg-white left-1/2">
                             <h1 class="text-sm text-center text-gray-400 tracking-wide">OR</h1>
                         </div>
                     </div>
-                    <div class="flex items-center justify-center gap-2">
-                        <h5 class="tracking-tight text-sm text-gray-600 mr-3">Login with</h5>
+                    <div class="flex items-center justify-center gap-3">
+                        <h5 class="tracking-tight text-sm text-gray-600 mr-2">Login with</h5>
                         <a href="#" class="">
-                            <img src="{{asset("assets/icons/google.svg")}}" alt="" class="w-6">
+                            <img src="{{asset("assets/icons/google.svg")}}" alt="" class="w-6 hover:scale-110">
                         </a>
                         <a href="#" class="">
-                            <img src="{{asset("assets/icons/facebook.svg")}}" alt="" class="w-6">
+                            <img src="{{asset("assets/icons/facebook.svg")}}" alt="" class="w-6 hover:scale-110">
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </main>

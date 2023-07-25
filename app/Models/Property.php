@@ -10,6 +10,13 @@ class Property extends Model
     use HasFactory;
 
     protected $guarded = ['category'];
+
+    public function scopeFilter($query, $filters)
+    {
+        if ($filters['search'] ?? false) {
+            return $query->where('title', 'like', '%' . $filters['search'] . '%');
+        }
+    }
     
     public function user()
     {
@@ -19,6 +26,11 @@ class Property extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function views()
+    {
+        return $this->hasMany(View::class);
     }
 
 }

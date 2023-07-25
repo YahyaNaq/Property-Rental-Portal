@@ -1,57 +1,106 @@
-<x-layout title="Dashboard">
+<x-layout title="Analytics">
     <div class="min-h-full">
         @include('dashboard/_nav')
-        @include('dashboard/_header', ['heading' => 'Your Properties'])
+        @include('dashboard/_header', ['heading' => 'Analytics'])
         <main>
-            @if($properties->isNotEmpty())
-            <div class="flex flex-wrap gap-6 mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                @foreach ($properties as $property)
-                    <div class="w-[52rem] md:flex-row md:max-w-4xl flex flex-col items-start bg-white border border-gray-200 rounded-lg shadow">
-                        <img class="object-cover object-center h-max w-[18rem] rounded-t-lg md:rounded-none md:rounded-l-lg" src="{{asset("assets/images/house.jpg")}}" alt="">
-                        <div class="flex flex-col justify-between p-4 leading-normal">
-                            <div class="ml-auto">
-                                <a href="/dashboard/edit-a-property/{{$property['id']}}" class="inline-flex items-center">
-                                    <img src="{{asset("assets/icons/edit.svg")}}" alt="" class="w-4">
-                                </a>
-                                <a href="/dashboard/delete-a-property/{{$property['id']}}" class="inline-flex items-center">
-                                    <img src="{{asset("assets/icons/delete.svg")}}" alt="" class="w-3.5 ml-.5 opacity-80">
-                                </a>
-                            </div>
-                                <h5 class="mb-2 mr-4 text-3xl font-bold capitalize tracking-tight text-gray-900">{{ $property['title'] }}</h5>
-
-                            <h5 class="text-sm w-max font-medium px-2 py-1 mb-2 tracking-tight bg-gray-200 rounded-lg text-gray-700">{{ $property->category->name }}</h5>
-                            <span class="flex items-end gap-x-1 text-gray-900">
-                                <h1 class="text-md font-semibold">PKR</h1>
-                                <h5 class="text-2xl font-bold">{{ number_format($property['monthly_rent']) }}</h5>
-                            </span>
-                            <div class="flex items-center gap-6 my-3">
-                                <a class="flex items-center gap-2">
-                                    <img src="{{asset("assets/images/dp.jpg")}}" class="h-6 rounded-full" alt="">
-                                    <h5 class="text-sm font-medium">{{ $property->user->full_name; }}</h5>
-                                </a>
-                                <h1 class="text-sm text-gray-500">Posted {{ $property['created_at']->diffForHumans(); }}</h1>
-                            </div>
-                            <p class="text-justify mb-5 font-normal text-gray-700">{{ str_split($property['description'], 94)[0] }}...</p>
-                            <a href="{{ $property['id'] }}" class="inline-flex items-center font-medium w-[5.7rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                                View ad
-                                <svg class="w-2.5 h-2.5 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            {{-- {{ dd($properties) }} --}}
+            <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                <div>
+                    <div class="">
+                        <h5>Total number of properties uploaded by you</h5>
+                        <h5>{{ $noOfPropsUp }}</h5>
+                    </div>
+                    <div class="">
+                        <h5>Total number of properties currently uploaded by you</h5>
+                        <h5>{{ $noOfPropsCurrentlyUp }}</h5>
+                    </div>
+                    <div class="">
+                        <h5>Total number of properties you rented</h5>
+                        <h5>{{ $noOfPropsRented }}</h5>
+                    </div>
+                    <div class="">
+                        <h5>Total number of properties currently rented by you</h5>
+                        <h5>{{ $noOfPropsCurrentlyRented }}</h5>
+                    </div>
+                </div>                
+                <h5 class="my-4 text-lg">Properties currently uploaded</h5>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <div class="pl-4 py-3 bg-indigo-200">
+                        <label for="table-search" class="sr-only">Search</label>
+                        <div class="relative mt-1">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                 </svg>
-                            </a>
+                            </div>
+                            <input type="text" id="table-search" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for items">
                         </div>
-                    </div>             
-                @endforeach
-            </div>
-            @else
-            <div class="mx-16 my-6 px-2">
-                <h5 class="mb-1">Your have not upload any properties yet.</h5>
-                <h5 class="mb-5">Click to add now!</h5>
-                <a href="/dashboard/add-a-new-property" class="inline-flex items-center font-medium px-3.5 py-2.5 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                    Add now
-                </a>
-            </div>
+                    </div>
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Name
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Category
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Location
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    City
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Views
+                                </th>
+                                <th scope="col" class="p-4">
+                                    <h5>Rented</h5>
+                                </th>
+                                <th scope="col" class="p-4">
+                                    <div class="flex items-center">
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($properties as $property)
 
-            @endif
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text">
+                                        {{ $property['title'] }}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ $property->category->name }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $property['location'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $property['city'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $property->views->count() }}
+                                    </td>
+                                    <td class="w-4 p-4">
+                                        <div class="flex items-center px-auto">
+                                            <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <a 
+                                        href="/{{$property->user->name}}/properties/edit/{{$property->id}}"
+                                        class="font-medium text-blue-600 hover:underline">
+                                            Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </main>
     </div>
 </x-layout>

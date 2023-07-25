@@ -1,10 +1,10 @@
 <x-layout title="Add a new Property">
     <section class="min-h-full">
-        @include('dashboard/_nav')
+        @include('properties/_nav')
         @include('dashboard/_header', ['heading' => 'Add a new Property'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                <form action="{{route('store')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('store', ['username' => Auth::user()->username ])}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="space-y-12">
                         <div class="border-b border-gray-900/10 pb-12">

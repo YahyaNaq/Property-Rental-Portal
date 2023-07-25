@@ -8,7 +8,7 @@
                     <h5 class="text-sm w-max font-medium px-2 py-1 tracking-tight bg-gray-200 rounded-lg text-gray-700">{{ $property->category->name }}</h5>
                     <div class="flex items-center gap-6 my-5">
                         <a class="flex items-center gap-2">
-                            <img src="dp.jpg" class="h-8 rounded-full" alt="">
+                            <img src="{{asset("assets/images/dp.jpg")}}" class="h-8 rounded-full" alt="">
                             <h5 class="text-md font-medium">{{ $property->user->full_name }}</h5>
                         </a>
                         <h1 class="text-sm text-gray-500">Posted {{ $property['created_at']->diffForHumans() }}</h1>

@@ -9,9 +9,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $properties = Property::where('is_rented', false)->get();
+        $properties = Property::where('is_rented', false)->orderByDesc('created_at');
+
         return view('index', [
-            'properties' => $properties
+            'properties' => $properties->filter(request(['search']))->get()
         ]);
     }
 

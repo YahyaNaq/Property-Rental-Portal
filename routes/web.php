@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
-use App\Models\Property;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,25 +21,28 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(HomeController::class)->group(function(){
     Route::get('/', 'index')->name('home');
-    Route::get('/{id}', 'show')->where('id', '[0-9]+');
-    Route::get('/{id}/Photos', 'show')->where('id', '[0-9]+');
-    Route::get('/{id}/Contact', 'show')->where('id', '[0-9]+');
 });
 
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
     Route::get('/dashboard', 'index');
-    
-    Route::get('dashboard/analytics', 'indexAnalytics');
+});
 
-    Route::get('/dashboard/add-a-new-property', 'create');
-    Route::post('/dashboard/add-a-new-property','store')->name('store');
+Route::controller(PropertyController::class)->middleware('auth')->group(function(){
+    Route::get('/{username}/properties', 'index');
+    
+    Route::get('/{username}/properties/{id}', 'show')->name('properties.show')->where('id', '[0-9]+');
+    // Route::get('/{id}/Photos', 'show')->where('id', '[0-9]+');
+    // Route::get('/{id}/Contact', 'show')->where('id', '[0-9]+');
 
-    Route::get('/dashboard/edit-a-property/{id}', 'edit');
-    Route::patch('/dashboard/edit-a-property/{id}', 'update')->name('update');
+    Route::get('/{username}/properties/new', 'create');
+    Route::post('/{username}/properties/new','store')->name('store');
+
+    Route::get('/{username}/properties/edit/{id}', 'edit');
+    Route::patch('/{username}/properties/edit/{id}', 'update')->name('update');
     
-    Route::get('/dashboard/delete-a-property/{id}', 'delete');
-    Route::delete('/dashboard/confirm-delete-property/{id}', 'destroy')->name('destroy');
-    
+    Route::get('/{username}/properties/delete/{id}', 'delete');
+    // Route::get('/{username}/properties/confirm-delete-property/{id}', 'show');
+    Route::delete('/{username}/properties/confirm-delete/{id}', 'destroy')->name('destroy');
 });
 
 Route::controller(UserController::class)->middleware('auth')->group(function (){

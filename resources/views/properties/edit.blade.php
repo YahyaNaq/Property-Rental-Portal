@@ -1,10 +1,10 @@
 <x-layout title="Edit a Property">
     <section class="min-h-full">
-        @include('dashboard/_nav')
+        @include('properties/_nav')
         @include('dashboard/_header', ['heading' => 'Edit a Property'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                <form action="{{route('update', ['id' => $property['id'] ])}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('update', [ 'username' => $username, 'id' => $property['id'] ])}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <div class="space-y-12">

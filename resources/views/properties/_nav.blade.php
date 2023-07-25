@@ -7,14 +7,14 @@
                     @php 
                         // To update after updating this project to laravel 10
                         $username=Auth::user()->username;
-                        $baseUrl=URL::to('/') . "/dashboard";
+                        $baseUrl=URL::to('/') . "/$username/properties";
                         $curUrl = url()->current();
                         // dd('Base: ' . $baseUrl, "Active: " .$curUrl);
                         $activeStyles = "bg-gray-800 text-white font-semibold";
                         $defaultStyles = "bg-gray-900 text-white hover:bg-gray-700 hover:text-white ";
                     @endphp
-                    <a href="/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
-                    {{-- <a href="/{{$username}}/properties/new" class="{{ $curUrl==$baseUrl . '/new' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Add new</a> --}}
+                    <a href="/{{$username}}/properties" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Your Properties</a>
+                    <a href="/{{$username}}/properties/new" class="{{ $curUrl==$baseUrl . '/new' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Add new</a>
                     </div>
                 </div>
             </div>

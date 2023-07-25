@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Property;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class DashboardController extends Controller
+class PropertyController extends Controller
 {
-
     protected function getValidationRules()
     {
         return [
@@ -34,28 +34,38 @@ class DashboardController extends Controller
             'monthly_rent' => 'rent'
         ];
     }
+    
+    public function index($username)
+    {
+        $properties = Property::where('user_id', Auth::id())->orderByDesc('updated_at');
+
+        return view('properties.index', [
+            'properties' => $properties->filter(request(['search']))->get(),
+            'username' => $username
+        ]);
+    }
 
     public function create()
     {
-        return view('dashboard.create', [
+        return view('properties.create', [
             'categories' => Category::pluck('name')
         ]);
     }
 
-    public function edit($id)
+    public function edit($username, $id)
     {
         $property = Property::findOrFail($id);
 
         if (! Gate::allows('edit-property', $property)) {
             abort(403);
         }
-
-        return view('dashboard.edit')
+        return view('properties.edit')
                 ->with('property', $property)
+                ->with('username', $username)
                 ->with('categories', Category::pluck('name'));
     }
 
-    public function delete($id)
+    public function delete($username, $id)
     {
         $property = Property::findOrFail($id);
 
@@ -63,29 +73,11 @@ class DashboardController extends Controller
             abort(403);
         }
 
-        return view('dashboard.delete', compact('property'));
+        return view('properties.delete', compact('property','username'));
     }
 
-    public function index()
-    {
-        $userProperties = Property::where('user_id', Auth::id())->get();
-        $user = Auth::user();
-    
-        $noOfPropsRented = $user->properties_rented ?? 0;
-        $noOfPropsUp = $user->properties_uploaded ?? 0;
-        $noOfPropsCurrentlyUp = $userProperties->count();
-        $noOfPropsCurrentlyRented = $userProperties->where('is_rented', true)->count();
-    
-        return view('dashboard.index', compact(
-            'userProperties',
-            'noOfPropsUp',
-            'noOfPropsRented',
-            'noOfPropsCurrentlyUp',
-            'noOfPropsCurrentlyRented'
-        ));
-    }
 
-    public function store(Request $request)
+    public function store(Request $request, $username)
     {   
         $rules= $this->getValidationRules();
         $rules['title'][] = Rule::unique('properties','title');
@@ -98,12 +90,12 @@ class DashboardController extends Controller
 
         Property::create($data);
         
-        session()->flash('success', 'New rental property added.');
+        session()->flash('success', 'New rental property added');
         
-        return redirect('/');
+        return redirect("/$username/properties");
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $username, $id)
     {   
         $property = Property::findOrFail($id);
         
@@ -116,46 +108,27 @@ class DashboardController extends Controller
 
         $validator=Validator::make($data, $this->getValidationRules(), [], $this->getAttributes());
         if ($validator->fails()) {
-            return redirect("/dashboard/edit-a-property/$id")
+            return redirect("/$username/properties/edit/$id")
                     ->withErrors($validator)
                     ->withInput();
         }
 
         $property->update($data);
 
-        session()->flash('success', 'Rental property updated.');
+        session()->flash('success', 'Rental property updated');
         
-        return redirect('/');
+        return redirect("/$username/properties");
     }
     
-    // public function show(Request $request, $id)
-    // {
-    //     $property = Property::findOrFail($id);
-        
-    //     if (! Gate::allows('delete-property', $property)) abort(403);
+    public function show(Request $request, $username, $id)
+    {
+        $property = Property::findOrFail($id);
+    
+        return view('properties.show', compact('property'));
 
-    //     $data = $request->all();
-    //     $data['original_title']= $property['title'];
-    //     $rules= [
-    //         'title' => ['required', 'same:original_title']
-    //     ];
-    //     $messages = [
-    //         'same' => 'Entered title must match the property title'
-    //     ];
+    }
 
-    //     $validator=Validator::make($data, $rules, $messages);
-
-    //     if ($validator->fails()) {
-    //         return redirect("/dashboard/delete-a-property/$id")
-    //                 ->withErrors($validator)
-    //                 ->withInput();
-    //     }
-
-    //     return view('dashboard.show');
-
-    // }
-
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, $username, $id)
     {
         $property = Property::findOrFail($id);
         
@@ -173,7 +146,7 @@ class DashboardController extends Controller
         $validator=Validator::make($data, $rules, $messages);
 
         if ($validator->fails()) {
-            return redirect("/dashboard/delete-a-property/$id")
+            return redirect("$username/properties/delete/$id")
                     ->withErrors($validator)
                     ->withInput();
         }
@@ -182,7 +155,6 @@ class DashboardController extends Controller
 
         session()->flash('success', 'Rental property deleted.');
 
-        return redirect('/');
-
+        return redirect("/$username/properties");
     }
 }
