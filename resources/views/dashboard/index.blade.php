@@ -5,25 +5,26 @@
         <main>
             {{-- {{ dd($properties) }} --}}
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                <div>
-                    <div class="">
-                        <h5>Total number of properties uploaded by you</h5>
-                        <h5>{{ $noOfPropsUp }}</h5>
+                <div class="flex flex-wrap gap-x-8 mb-16 gap-y-3">
+                    <h5 class="basis-full my-4 text-2xl font-semibold">Total number of properties by you</h5>
+                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
+                        <h5 class="text-lg">Uploaded</h5>
+                        <h5 class="text-4xl font-bold">{{ $noOfPropsUp }}</h5>
                     </div>
-                    <div class="">
-                        <h5>Total number of properties currently uploaded by you</h5>
-                        <h5>{{ $noOfPropsCurrentlyUp }}</h5>
+                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
+                        <h5 class="text-lg">Currently uploaded</h5>
+                        <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyUp }}</h5>
                     </div>
-                    <div class="">
-                        <h5>Total number of properties you rented</h5>
-                        <h5>{{ $noOfPropsRented }}</h5>
+                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
+                        <h5 class="text-lg">Rented</h5>
+                        <h5 class="text-4xl font-bold">{{ $noOfPropsRented }}</h5>
                     </div>
-                    <div class="">
-                        <h5>Total number of properties currently rented by you</h5>
-                        <h5>{{ $noOfPropsCurrentlyRented }}</h5>
+                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
+                        <h5 class="text-lg">Currently rented</h5>
+                        <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyRented }}</h5>
                     </div>
                 </div>                
-                <h5 class="my-4 text-lg">Properties currently uploaded</h5>
+                <h5 class="my-4 text-2xl font-semibold">Properties currently uploaded</h5>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <div class="pl-4 py-3 bg-indigo-200">
                         <label for="table-search" class="sr-only">Search</label>
@@ -65,7 +66,6 @@
                         </thead>
                         <tbody>
                             @foreach($properties as $property)
-
                                 <tr class="bg-white border-b hover:bg-gray-50">
                                     <th scope="row" class="px-6 py-4 font-medium text">
                                         {{ $property['title'] }}
@@ -90,7 +90,7 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <a 
-                                        href="/{{$property->user->name}}/properties/edit/{{$property->id}}"
+                                        href="/{{$property->user->username}}/properties/edit/{{$property->id}}"
                                         class="font-medium text-blue-600 hover:underline">
                                             Edit
                                         </a>
@@ -102,5 +102,8 @@
                 </div>
             </div>
         </main>
+        @if(session()->has('success'))
+            <x-flash/>
+        @endif
     </div>
 </x-layout>

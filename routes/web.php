@@ -30,7 +30,7 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 Route::controller(PropertyController::class)->middleware('auth')->group(function(){
     Route::get('/{username}/properties', 'index');
     
-    Route::get('/{username}/properties/{id}', 'show')->name('properties.show')->where('id', '[0-9]+');
+    Route::get('/{username}/properties/{id}', 'show')->withoutMiddleware('auth')->name('properties.show')->where('id', '[0-9]+');
     // Route::get('/{id}/Photos', 'show')->where('id', '[0-9]+');
     // Route::get('/{id}/Contact', 'show')->where('id', '[0-9]+');
 

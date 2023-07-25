@@ -49,6 +49,12 @@
                     </div>             
                 @endforeach
             </div>
+            <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                <div class="max-w-4xl">
+                    {{ $properties->links() }}
+                </div>
+            </div>
+
             @else
             <div class="mx-16 my-6 px-2">
                 <h5 class="mb-1">Your have not upload any properties yet.</h5>

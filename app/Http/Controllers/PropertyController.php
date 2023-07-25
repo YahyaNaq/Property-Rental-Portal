@@ -40,7 +40,7 @@ class PropertyController extends Controller
         $properties = Property::where('user_id', Auth::id())->orderByDesc('updated_at');
 
         return view('properties.index', [
-            'properties' => $properties->filter(request(['search']))->get(),
+            'properties' => $properties->filter(request(['search']))->paginate(2),
             'username' => $username
         ]);
     }

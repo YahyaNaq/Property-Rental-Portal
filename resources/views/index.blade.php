@@ -38,6 +38,11 @@
                     </div>             
                     @endforeach
                 </div>
+                <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                    <div class="max-w-4xl">
+                        {{ $properties->links() }}
+                    </div>
+                </div>
             @else
                 <h5 class="mx-16 px-2 my-6">No properties found. Check back later!</h5>
             @endif
