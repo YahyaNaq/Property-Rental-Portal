@@ -12,7 +12,7 @@ class HomeController extends Controller
         $properties = Property::where('is_rented', false)->orderByDesc('created_at');
 
         return view('index', [
-            'properties' => $properties->filter(request(['search']))->paginate(5)
+            'properties' => $properties->filter(request(['search']))->paginate(8)
         ]);
     }
 

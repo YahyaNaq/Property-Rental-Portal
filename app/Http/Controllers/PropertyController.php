@@ -40,9 +40,17 @@ class PropertyController extends Controller
         $properties = Property::where('user_id', Auth::id())->orderByDesc('updated_at');
 
         return view('properties.index', [
-            'properties' => $properties->filter(request(['search']))->paginate(2),
+            'properties' => $properties->filter(request(['search']))->paginate(5),
             'username' => $username
         ]);
+    }
+
+    public function show(Request $request, $username, $id)
+    {
+        $property = Property::findOrFail($id);
+    
+        return view('properties.show', compact('property', 'username'));
+
     }
 
     public function create()
@@ -95,6 +103,19 @@ class PropertyController extends Controller
         return redirect("/$username/properties");
     }
 
+    public function setStatus($id)
+    {
+        $property = Property::findOrFail($id);
+
+        if (! Gate::allows('set-property-status', $property)) {
+            abort(403);
+        }
+
+        $property->update([ 'is_rented', !$property['is_rented'] ]);
+
+        // return redirect();
+    }
+
     public function update(Request $request, $username, $id)
     {   
         $property = Property::findOrFail($id);
@@ -118,14 +139,6 @@ class PropertyController extends Controller
         session()->flash('success', 'Rental property updated');
         
         return redirect("/$username/properties");
-    }
-    
-    public function show(Request $request, $username, $id)
-    {
-        $property = Property::findOrFail($id);
-    
-        return view('properties.show', compact('property'));
-
     }
 
     public function destroy(Request $request, $username, $id)

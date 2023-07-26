@@ -33,6 +33,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->id === $property->user_id;
         });
 
+        Gate::define('set-property-status', function (User $user, Property $property) {
+            return $user->id === $property->user_id;
+        });
+
         $this->registerPolicies();
 
         //

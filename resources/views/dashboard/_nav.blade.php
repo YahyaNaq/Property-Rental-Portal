@@ -14,6 +14,8 @@
                         $defaultStyles = "bg-gray-900 text-white hover:bg-gray-700 hover:text-white ";
                     @endphp
                     <a href="/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
+                    <a href="/dashboard/verify-property" class="{{ $curUrl==$baseUrl . '/verify-property' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Verify Property</a>
+                    <a href="/dashboard/generate-user-token" class="{{ $curUrl==$baseUrl . '/generate-user-token' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Add new user</a>
                     {{-- <a href="/{{$username}}/properties/new" class="{{ $curUrl==$baseUrl . '/new' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Add new</a> --}}
                     </div>
                 </div>

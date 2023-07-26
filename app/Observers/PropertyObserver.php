@@ -53,7 +53,13 @@ class PropertyObserver
      */
     public function updated(Property $property)
     {
-        //
+        if
+        ($property->isDirty('is_rented')
+        && $property->getOriginal('is_rented') != $property->is_rented) 
+        {
+            $user=$property->user;
+            $user->update(['properties_rented' => $user->properties_rented+1]);
+        }
     }
 
     /**
