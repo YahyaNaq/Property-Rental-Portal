@@ -1,4 +1,4 @@
-<x-layout title="RentOut-Login">
+<x-admin.layout title="RentOut-Login">
     <section>
         <main class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div class="w-full max-w-md space-y-8">
@@ -7,7 +7,7 @@
                     <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Login to your account</h2>
                     <p class="mt-2 text-center text-sm text-gray-600"></p>    
                 </div>
-                <form action="{{route('login')}}" method="POST" class="mt-8">
+                <form action="{{route('admin.store')}}" method="POST" class="mt-8">
                     @csrf
                     <div class="-space-y-px rounded-md shadow-sm">
                         <div>
@@ -59,11 +59,11 @@
                         </button>
                     </div>
                 </form>
-                <div class="flex justify-center gap-2">
+                {{-- <div class="flex justify-center gap-2">
                     <h5 class="tracking-tight">Don't have an account?</h5>
                     <a href="/register" class="font-semibold text-indigo-900 hover:scale-x-[1.025]">Register now!</a>
-                </div>
+                </div> --}}
             </div>
         </main>
     </section>
-</x-layout>
+</x-admin.layout>

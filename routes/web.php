@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminSessionsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropertyController;
@@ -27,12 +29,14 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::get('/dashboard', 'index');
 });
 
+Route::controller(AdminDashboardController::class)->middleware('auth:admins')->group(function(){
+    Route::get('admin/dashboard', 'index');
+});
+
 Route::controller(PropertyController::class)->middleware('auth')->group(function(){
     Route::get('/{username}/properties', 'index');
     
     Route::get('/{username}/properties/{id}', 'show')->withoutMiddleware('auth')->name('properties.show')->where('id', '[0-9]+');
-    // Route::get('/{id}/Photos', 'show')->where('id', '[0-9]+');
-    // Route::get('/{id}/Contact', 'show')->where('id', '[0-9]+');
 
     Route::get('/{username}/properties/new', 'create');
     Route::post('/{username}/properties/new','store')->name('store');
@@ -63,3 +67,11 @@ Route::controller(RegisterController::class)->middleware('guest')->group(functio
 Route::get('login', [SessionsController::class, 'create'])->name('login')->middleware('guest');
 Route::post('login', [SessionsController::class, 'store'])->middleware('guest');
 Route::post('logout', [SessionsController::class, 'destroy'])->middleware('auth');
+
+// Do I need to specify the middleware here[->middleware('guest:admins')] if I have  
+// mentioned it in this controller class?
+Route::controller(AdminSessionsController::class)->group(function (){
+    Route::get('/admin/login', 'create')->name('admin.login');
+    Route::post('/admin/login', 'store')->name('admin.store');
+    Route::get('/admin/logout', 'destroy')->name('admin.logout');
+});

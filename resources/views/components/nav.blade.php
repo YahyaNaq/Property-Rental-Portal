@@ -18,23 +18,23 @@
                 @auth
                     <a href="/dashboard" class="{{ Str::contains($curUrl, $baseUrl . '/dashboard') ? $activeStyles : $defaultStyles; }} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Dashboard</a>
                 @endauth
-                    <a href="/" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} rounded-md px-3 py-2 text-sm font-medium">Home</a>
+                    {{-- <a href="/" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} rounded-md px-3 py-2 text-sm font-medium">Home</a> --}}
             </div>
             </div>
         </div>
         <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
                 @guest
-                    <div class="flex gap-2">
-                        @if($curUrl == $baseUrl . '/register')
-                            <a href="/login" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Login</a>
-                        @elseif($curUrl == $baseUrl . '/login')
-                            <a href="/register" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Register</a>
-                        @else
-                            <a href="/login" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Login</a>
-                            <a href="/register" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Register</a>
-                        @endif
-                    </div>
+                <div class="flex gap-2">
+                    @if(Str::contains($curUrl, '/register'))
+                    <a href="/login" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Login</a>
+                    @elseif(Str::contains($curUrl, '/login'))
+                    <a href="/register" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Register</a>
+                    @else
+                    <a href="/login" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Login</a>
+                    <a href="/register" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Register</a>
+                    @endif
+                </div>
                 @else
                     {{-- <form action="/logout" method="POST">
                         @csrf

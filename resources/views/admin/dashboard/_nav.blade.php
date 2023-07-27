@@ -7,13 +7,16 @@
                     @php 
                         // To update after updating this project to laravel 10
                         $username=Auth::user()->username;
-                        $baseUrl=URL::to('/') . "/dashboard";
+                        $baseUrl=URL::to('/') . "/admin/dashboard";
                         $curUrl = url()->current();
                         // dd('Base: ' . $baseUrl, "Active: " .$curUrl);
                         $activeStyles = "bg-gray-800 text-white font-semibold";
                         $defaultStyles = "bg-gray-900 text-white hover:bg-gray-700 hover:text-white ";
                     @endphp
-                    <a href="/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
+                    <a href="/admin/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
+                    <a href="/admin/dashboard/verify-property" class="{{ $curUrl==$baseUrl . '/verify-property' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Verify Property</a>
+                    <a href="/admin/dashboard/generate-user-token" class="{{ $curUrl==$baseUrl . '/generate-user-token' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Add new user</a>
+                    {{-- <a href="/{{$username}}/properties/new" class="{{ $curUrl==$baseUrl . '/new' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Add new</a> --}}
                     </div>
                 </div>
             </div>

@@ -11,11 +11,14 @@
     <title>{{ $title }}</title>
 </head>
 <body class="h-full">
-    {{-- {{dd(Auth::guard('web')->check())}} --}}
-    @auth
-        <x-sidebar username="{{ Auth::user()->username ?? '' }}" />
+    @php 
+        $user=Auth::guard('admins')->user();
+    @endphp
+    
+    @auth('admins')
+        <x-admin.sidebar :user="$user" />
     @endauth
-    <x-nav username="{{ Auth::user()->username ?? '' }}" />
+    <x-admin.nav :user="$user" />
         
     {{ $slot }}
 

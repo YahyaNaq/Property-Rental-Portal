@@ -17,6 +17,8 @@ class UserFactory extends Factory
         return [
             'full_name' => $this->faker->name(),
             'username' => $this->faker->userName,
+            'properties_uploaded' => 5,
+            'properties_rented' => 0,
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '12345678', // password

@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $users = User::factory(3)->create();
         $this->call(CategorySeeder::class);
 
+        $this->call(AdminSeeder::class);
+
         foreach($users as $user) {
             Property::factory(5)->create([
                 'user_id' => $user->id
