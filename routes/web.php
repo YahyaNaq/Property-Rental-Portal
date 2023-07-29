@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminSessionsController;
+use App\Http\Controllers\Agent\AgentDashboardController;
+use App\Http\Controllers\Agent\AgentSessionsController;
+use App\Http\Controllers\Agent\PropertyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use Illuminate\Support\Facades\Route;
@@ -33,10 +35,14 @@ Route::controller(AdminDashboardController::class)->middleware('auth:admins')->g
     Route::get('admin/dashboard', 'index');
 });
 
-Route::controller(PropertyController::class)->middleware('auth')->group(function(){
+Route::controller(AgentDashboardController::class)->middleware('auth:agents')->group(function(){
+    Route::get('agent/dashboard', 'index');
+});
+
+Route::controller(PropertyController::class)->middleware('auth:agents')->group(function(){
     Route::get('/{username}/properties', 'index');
     
-    Route::get('/{username}/properties/{id}', 'show')->withoutMiddleware('auth')->name('properties.show')->where('id', '[0-9]+');
+    Route::get('/{username}/properties/{id}', 'show')->name('properties.show')->where('id', '[0-9]+');
 
     Route::get('/{username}/properties/new', 'create');
     Route::post('/{username}/properties/new','store')->name('store');
@@ -64,9 +70,13 @@ Route::controller(RegisterController::class)->middleware('guest')->group(functio
     Route::post('/register', 'store');
 });
 
-Route::get('login', [SessionsController::class, 'create'])->name('login')->middleware('guest');
-Route::post('login', [SessionsController::class, 'store'])->middleware('guest');
-Route::post('logout', [SessionsController::class, 'destroy'])->middleware('auth');
+Route::get('/login', [SessionsController::class, 'create'])->name('login')->middleware(['guest', 'guest:admins', 'guest:agents']);
+Route::post('/login', [SessionsController::class, 'store'])->middleware(['guest', 'guest:admins', 'guest:agents']);
+Route::post('/logout', [SessionsController::class, 'destroy'])->middleware('auth');
+
+Route::get('agent/login', [AgentSessionsController::class, 'create'])->name('agent.login')->middleware(['guest', 'guest:admins']);
+Route::post('agent/login', [AgentSessionsController::class, 'store'])->name('agent.store')->middleware(['guest', 'guest:admins']);
+Route::post('agent/logout', [AgentSessionsController::class, 'destroy'])->name('agent.logout')->middleware('auth');
 
 // Do I need to specify the middleware here[->middleware('guest:admins')] if I have  
 // mentioned it in this controller class?

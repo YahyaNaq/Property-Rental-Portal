@@ -13,7 +13,7 @@ class Property extends Model
 
     public function scopeFilter($query, $filters)
     {
-        if ($filters['search'] ?? false) {
+        if (($filters['search'] ?? false) && $filters['search']) {
             return $query->where('title', 'like', '%' . $filters['search'] . '%');
         }
     }
@@ -21,6 +21,11 @@ class Property extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function agent()
+    {
+        return $this->belongsTo(Agent::class);
     }
 
     public function category()

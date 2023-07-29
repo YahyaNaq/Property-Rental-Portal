@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Agent;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Property;
 use App\Models\User;
@@ -16,8 +17,8 @@ class PropertyController extends Controller
     protected function getValidationRules()
     {
         return [
-            'title' => ['required', 'min:20', 'max:50'],
-            'description' => ['required', 'min:100', 'max:1000'],
+            'title' => ['required', 'min:25', 'max:100'],
+            'description' => ['required', 'min:150', 'max:1500'],
             'category' => ['required', 'min:4', 'max:25'],
             'city' => ['required', 'min:3', 'max:25'],
             'location' => ['required', 'min:4', 'max:25'],
@@ -37,9 +38,9 @@ class PropertyController extends Controller
     
     public function index($username)
     {
-        $properties = Property::where('user_id', Auth::id())->orderByDesc('updated_at');
+        $properties = Property::where('agent_id', Auth::guard('agents')->id())->orderByDesc('updated_at');
 
-        return view('properties.index', [
+        return view('agent.properties.index', [
             'properties' => $properties->filter(request(['search']))->paginate(5),
             'username' => $username
         ]);
@@ -49,13 +50,14 @@ class PropertyController extends Controller
     {
         $property = Property::findOrFail($id);
     
-        return view('properties.show', compact('property', 'username'));
+        return view('agent.properties.show', compact('property', 'username'));
 
     }
 
-    public function create()
+    public function create($username)
     {
-        return view('properties.create', [
+        return view('agent.properties.create', [
+            'username' => $username, 
             'categories' => Category::pluck('name')
         ]);
     }
@@ -67,7 +69,7 @@ class PropertyController extends Controller
         if (! Gate::allows('edit-property', $property)) {
             abort(403);
         }
-        return view('properties.edit')
+        return view('agent.properties.edit')
                 ->with('property', $property)
                 ->with('username', $username)
                 ->with('categories', Category::pluck('name'));
@@ -81,7 +83,7 @@ class PropertyController extends Controller
             abort(403);
         }
 
-        return view('properties.delete', compact('property','username'));
+        return view('agent.properties.delete', compact('property','username'));
     }
 
 
@@ -91,7 +93,7 @@ class PropertyController extends Controller
         $rules['title'][] = Rule::unique('properties','title');
 
         $data = $request->all();
-        $data['user_id']=Auth::id();
+        $data['agent_id']=Auth::guard('agents')->id();
         $data['category_id']=Category::where('name', $data['category'])->first()->id;
 
         Validator::make($data, $rules, [], $this->getAttributes())->validate();

@@ -1,6 +1,6 @@
-<x-layout title="Edit a Property">
+<x-agent.layout title="Edit a Property">
     <section class="min-h-full">
-        @include('properties/_nav')
+        @include('agent/properties/_nav')
         @include('dashboard/_header', ['heading' => 'Edit a Property'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
@@ -160,4 +160,4 @@
             </div>
         </main>        
     </section>
-</x-layout>
+</x-agent.layout>

@@ -11,11 +11,15 @@
     <title>{{ $title }}</title>
 </head>
 <body class="h-full">
-    {{ $username=Auth::user()->username ?? ''; }}
-    @auth
-        <x-sidebar username="{{ $username }}" />
+    @php 
+        $user=Auth::guard('agents')->user();
+        // dd($user);
+    @endphp
+    
+    @auth('agents')
+        <x-agent.sidebar :user="$user" />
     @endauth
-    <x-nav username="{{ $username }}" />
+    <x-agent.nav :user="$user" />
         
     {{ $slot }}
 

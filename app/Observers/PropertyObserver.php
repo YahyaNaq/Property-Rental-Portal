@@ -17,7 +17,7 @@ class PropertyObserver
      */
     public function retrieved(Property $property)
     {
-        $data=['username' => $property->user->username, 'id' => $property->id];
+        $data=['username' => $property->agent->username, 'id' => $property->id];
 
         if 
         (Auth::user()
@@ -41,8 +41,19 @@ class PropertyObserver
      */
     public function created(Property $property)
     {
-        $user=$property->user;
-        $user->update(['properties_uploaded' => $user->properties_uploaded+1]);
+        //
+    }
+    
+    /**
+     * Handle the Property "creating" event.
+     *
+     * @param  \App\Models\Property  $property
+     * @return void
+     */
+    public function creating(Property $property)
+    {
+        $agent=$property->agent;
+        $agent->update(['properties_uploaded' => $agent->properties_uploaded+1]);
     }
 
     /**
@@ -57,8 +68,8 @@ class PropertyObserver
         ($property->isDirty('is_rented')
         && $property->getOriginal('is_rented') != $property->is_rented) 
         {
-            $user=$property->user;
-            $user->update(['properties_rented' => $user->properties_rented+1]);
+            $agent=$property->agent;
+            $agent->update(['properties_rented' => $agent->properties_rented+1]);
         }
     }
 

@@ -23,12 +23,12 @@
                             <div class="flex items-center gap-6 my-3">
                                 <a class="flex items-center gap-2">
                                     <img src="{{asset("assets/images/dp.jpg")}}" class="h-6 rounded-full" alt="">
-                                    <h5 class="text-sm font-medium">{{ $property->user->full_name; }}</h5>
+                                    <h5 class="text-sm font-medium">{{ $property->agent->full_name; }}</h5>
                                 </a>
                                 <h1 class="text-sm text-gray-500">Posted {{ $property['created_at']->diffForHumans(); }}</h1>
                             </div>
                         <p class="text-justify mb-5 font-normal text-gray-700">{{ str_split($property['description'], 94)[0] }}...</p>
-                            <a href="{{ route('properties.show', ['username'=> $property->user->username, 'id' => $property['id']])}}" class="inline-flex items-center font-medium w-[5.7rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                            <a href="{{ route('properties.show', ['username'=> $property->agent->username, 'id' => $property['id']])}}" class="inline-flex items-center font-medium w-[5.7rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                 View ad
                                 <svg class="w-2.5 h-2.5 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>

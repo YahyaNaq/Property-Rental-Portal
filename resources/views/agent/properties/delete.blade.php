@@ -1,13 +1,13 @@
-<x-layout title="Delete a Property">
+<x-agent.layout title="Delete a Property">
     <div class="min-h-full">
-        @include('properties/_nav')
+        @include('agent/properties/_nav')
         @include('dashboard/_header', [ 'heading' => 'Delete this post'])
         <main class="relative">
             <div class="text-center mx-16 my-6 p-6 max-w-lg shadow bg-white border border-gray-200 rounded-lg">
                 <a href="/{{ $username }}/properties">
                     <img src="{{asset("assets/icons/close.svg")}}" alt="" class="w-2.5 ml-auto">
                 </a>
-                <h5 class="text-3xl mt-3 font-bold">
+                <h5 class="text-3xl mt-3 font-bold capitalize">
                     {{ $property['title'] }}
                 </h5>
                 <hr class="w-full border-gray-700 border-1.5 my-6">
@@ -39,4 +39,4 @@
             </div>
         </main>
     </div>
-</x-layout>
+</x-agent.layout>

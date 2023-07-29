@@ -1,10 +1,10 @@
-<x-layout title="Add a new Property">
+<x-agent.layout title="Add a new Property">
     <section class="min-h-full">
-        @include('properties/_nav')
+        @include('agent/properties/_nav')
         @include('dashboard/_header', ['heading' => 'Add a new Property'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                <form action="{{route('store', ['username' => Auth::user()->username ])}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('store', ['username' => $username ])}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="space-y-12">
                         <div class="border-b border-gray-900/10 pb-12">
@@ -90,7 +90,7 @@
                                     <label for="area" class="block text-sm font-medium leading-6 text-gray-900">Area (sq yards)</label>
                                     <div class="mt-2">
                                         <div class="flex rounded-md shadow-sm bg-white ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                            <input type="number" name="area" id="area" value="{{old('area')}}" class="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Total area of your property">
+                                            <input type="number" name="area" id="area" value="{{old('area')}}" step="10" min="80" max="60500" class="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Total area of your property">
                                         </div>
                                     </div>
 
@@ -158,4 +158,4 @@
             </div>
         </main>        
     </section>
-</x-layout>
+</x-agent.layout>

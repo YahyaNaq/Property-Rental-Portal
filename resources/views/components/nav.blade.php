@@ -18,7 +18,7 @@
                 @auth
                     <a href="/dashboard" class="{{ Str::contains($curUrl, $baseUrl . '/dashboard') ? $activeStyles : $defaultStyles; }} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Dashboard</a>
                 @endauth
-                    {{-- <a href="/" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} rounded-md px-3 py-2 text-sm font-medium">Home</a> --}}
+                    <a href="/" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} rounded-md px-3 py-2 text-sm font-medium">Home</a>
             </div>
             </div>
         </div>

@@ -1,39 +1,27 @@
-<x-admin.layout title="Analytics">
+<x-agent.layout title="Agent Analytics">
     <div class="min-h-full">
-        @include('admin/dashboard/_nav')
-        @include('admin/dashboard/_header', ['heading' => 'Agency analytics'])
+        @include('agent/dashboard/_nav')
+        @include('agent/dashboard/_header', ['heading' => 'Agent Analytics'])
         <main>
             {{-- {{ dd($properties) }} --}}
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                 <div class="flex flex-wrap gap-x-8 mb-16 gap-y-3">
-                    <h5 class="basis-full my-4 text-2xl font-semibold">Total number of properties</h5>
-                    <div class="min-w-40 w-60 text-right px-4 py-4 bg-indigo-100 shadow rounded-lg">
-                        <h5 class="text-sm pb-1">Uploaded</h5>
-                        <div class="flex justify-between items-center">
-                            <img class="w-14" src="{{asset("assets/icons/housekey.svg")}}" alt="">
-                            <h5 class="text-4xl font-bold">{{ $noOfPropsUp }}</h5>
-                        </div>
+                    <h5 class="basis-full my-4 text-2xl font-semibold">Total number of properties by you</h5>
+                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
+                        <h5 class="text-lg">Uploaded</h5>
+                        <h5 class="text-4xl font-bold">{{ $noOfPropsUp }}</h5>
                     </div>
-                    <div class="min-w-40 w-60 text-right px-4 py-4 bg-indigo-200 shadow rounded-lg">
-                        <h5 class="text-sm pb-1">Rented</h5>
-                        <div class="flex justify-between items-center">
-                            <img class="w-14" src="{{asset("assets/icons/housekey.svg")}}" alt="">
-                            <h5 class="text-4xl font-bold">{{ $noOfPropsRented }}</h5>
-                        </div>
+                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
+                        <h5 class="text-lg">Currently uploaded</h5>
+                        <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyUp }}</h5>
                     </div>
-                    <div class="min-w-40 w-60 text-right px-4 py-4 bg-indigo-100 shadow rounded-lg">
-                        <h5 class="text-sm pb-1">Currently uploaded</h5>
-                        <div class="flex justify-between items-center">
-                            <img class="w-14" src="{{asset("assets/icons/housekey.svg")}}" alt="">
-                            <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyUp }}</h5>
-                        </div>
+                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
+                        <h5 class="text-lg">Rented</h5>
+                        <h5 class="text-4xl font-bold">{{ $noOfPropsRented }}</h5>
                     </div>
-                    <div class="min-w-40 w-60 text-right px-4 py-4 bg-indigo-200 shadow rounded-lg">
-                        <h5 class="text-sm pb-1">Currently rented</h5>
-                        <div class="flex justify-between items-center">
-                            <img class="w-14" src="{{asset("assets/icons/housekey.svg")}}" alt="">
-                            <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyRented }}</h5>
-                        </div>
+                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
+                        <h5 class="text-lg">Currently rented</h5>
+                        <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyRented }}</h5>
                     </div>
                 </div>                
                 <h5 class="my-4 text-2xl font-semibold">Properties currently uploaded</h5>
@@ -102,7 +90,7 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <a 
-                                        href="/{{$property->user->username}}/properties/edit/{{$property->id}}"
+                                        href="/{{$property->agent->username}}/properties/edit/{{$property->id}}"
                                         class="font-medium text-blue-600 hover:underline">
                                             Edit
                                         </a>
@@ -118,4 +106,4 @@
             <x-flash/>
         @endif
     </div>
-</x-admin.layout>
+</x-agent.layout>

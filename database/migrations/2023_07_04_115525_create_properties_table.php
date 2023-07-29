@@ -15,10 +15,11 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->onDelete('cascade');
-            $table->foreignId('category_id')->constrained('categories');
-            $table->string('title', 50);
-            $table->string('description', 1000);
+            $table->foreignId('user_id')->onDelete('cascade')->nullable();;
+            $table->foreignId('agent_id')->onDelete('cascade');
+            $table->foreignId('category_id');
+            $table->string('title', 100);
+            $table->string('description', 1500);
             $table->string('city');
             $table->string('location', 50);
             $table->unsignedSmallInteger('area');

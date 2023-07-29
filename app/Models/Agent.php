@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class Agent extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -39,15 +39,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // public function properties()
-    // {
-    //     return $this->hasMany(Property::class);
-    // }
-
-    public function views()
+    public function properties()
     {
-        return $this->hasMany(View::class);
+        return $this->hasMany(Property::class);
     }
+
+    // public function views()
+    // {
+    //     return $this->hasMany(View::class);
+    // }
 
     public function setPasswordAttribute($password)
     {

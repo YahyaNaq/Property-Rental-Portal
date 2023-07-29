@@ -1,4 +1,4 @@
-<x-layout title="{{ $property['title'] }}">
+<x-agent.layout title="{{ $property['title'] }}">
     <div class="min-h-full">
         {{-- <x-header heading={{$property}}/> --}}
         <main> 
@@ -126,4 +126,4 @@
             </div>              
         </main>
     </div>
-</x-layout>
+</x-agent.layout>

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Agent;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,6 +17,7 @@ class PropertyFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'agent_id' => Agent::factory(),
             'category_id' => rand(1,4),
             'title' => $this->faker->text(40),
             'description' => $this->faker->text(200),  

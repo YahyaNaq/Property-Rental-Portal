@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Agent;
 use App\Models\Property;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -15,14 +16,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::factory(3)->create();
-        $this->call(CategorySeeder::class);
+        User::factory(3)->create();
+        $agents = Agent::factory(3)->create();
 
+        $this->call(CategorySeeder::class);
+        
         $this->call(AdminSeeder::class);
 
-        foreach($users as $user) {
+        foreach($agents as $agent) {
             Property::factory(5)->create([
-                'user_id' => $user->id
+                'agent_id' => $agent->id
             ]);
         }
     }

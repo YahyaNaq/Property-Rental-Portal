@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Agent;
 use App\Models\Property;
-use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,16 +25,16 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Gate::define('edit-property', function (User $user, Property $property) {
-            return $user->id === $property->user_id;
+        Gate::define('edit-property', function (Agent $agent, Property $property) {
+            return $agent->id === $property->agent_id;
         });
         
-        Gate::define('delete-property', function (User $user, Property $property) {
-            return $user->id === $property->user_id;
+        Gate::define('delete-property', function (Agent $agent, Property $property) {
+            return $agent->id === $property->agent_id;
         });
 
-        Gate::define('set-property-status', function (User $user, Property $property) {
-            return $user->id === $property->user_id;
+        Gate::define('set-property-status', function (Agent $agent, Property $property) {
+            return $agent->id === $property->agent_id;
         });
 
         $this->registerPolicies();
