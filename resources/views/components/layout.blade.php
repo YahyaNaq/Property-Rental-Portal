@@ -11,7 +11,9 @@
     <title>{{ $title }}</title>
 </head>
 <body class="h-full">
-    {{ $username=Auth::user()->username ?? ''; }}
+    @php
+        $username=Auth::user()->username ?? '';
+    @endphp
     @auth
         <x-sidebar username="{{ $username }}" />
     @endauth

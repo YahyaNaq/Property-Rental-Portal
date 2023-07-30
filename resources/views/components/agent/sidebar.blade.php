@@ -39,7 +39,7 @@ $defaultStyles = "text-gray-300 hover:bg-gray-700 hover:text-white hover:font-me
                 <h5>Notifications</h5>
             </a>
             <hr class="my-2 border-1.5 border-gray-400">
-            <form action="{{route('admin.logout')}}" method="POST" class="pl-3 text-gray-300 hover:bg-gray-700 hover:text-white hover:font-medium p-1.5 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100">
+            <form action="{{route('agent.logout')}}" method="POST" class="pl-3 text-gray-300 hover:bg-gray-700 hover:text-white hover:font-medium p-1.5 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100">
                 @csrf
                 <button class="flex items-center gap-2">
                     <img src="{{asset("assets/icons/logout.svg")}}" alt="" class="invert h-6">

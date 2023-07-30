@@ -7,6 +7,7 @@ use App\Http\Controllers\Agent\AgentSessionsController;
 use App\Http\Controllers\Agent\PropertyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use Illuminate\Support\Facades\Route;
@@ -51,12 +52,12 @@ Route::controller(PropertyController::class)->middleware('auth:agents')->group(f
     Route::patch('/{username}/properties/edit/{id}', 'update')->name('update');
     
     Route::get('/{username}/properties/delete/{id}', 'delete');
-    // Route::get('/{username}/properties/confirm-delete-property/{id}', 'show');
+    Route::get('/{username}/properties/confirm-delete-property/{id}', 'show');
     Route::delete('/{username}/properties/confirm-delete/{id}', 'destroy')->name('destroy');
 });
 
-Route::controller(UserController::class)->middleware('auth')->group(function (){
-    Route::get('/user/{username}', 'index');
+Route::controller(ProfileController::class)->group(function (){
+    Route::get('/{username}', 'index')->where('username', '[A-Za-z0-9_\-.]+');
     
     // Route::get('/user/{username}/edit-profile', 'edit');
     // Route::patch('/user/{username}/edit-profile','update')->name('update');
@@ -70,7 +71,7 @@ Route::controller(RegisterController::class)->middleware('guest')->group(functio
     Route::post('/register', 'store');
 });
 
-Route::get('/login', [SessionsController::class, 'create'])->name('login')->middleware(['guest', 'guest:admins', 'guest:agents']);
+Route::get('/login', [SessionsController::class, 'create'])->middleware(['guest', 'guest:admins', 'guest:agents'])->name('login');
 Route::post('/login', [SessionsController::class, 'store'])->middleware(['guest', 'guest:admins', 'guest:agents']);
 Route::post('/logout', [SessionsController::class, 'destroy'])->middleware('auth');
 
