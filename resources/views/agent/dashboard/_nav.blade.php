@@ -13,7 +13,8 @@
                         $activeStyles = "bg-gray-800 text-white font-semibold";
                         $defaultStyles = "bg-gray-900 text-white hover:bg-gray-700 hover:text-white ";
                     @endphp
-                    <a href="agent/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
+                    <a href="/agent/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
+                    <a href="/agent/dashboard/rent-offers" class="{{ $curUrl==$baseUrl . "/rent-offers" ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Rent Offers</a>
                     </div>
                 </div>
             </div>

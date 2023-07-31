@@ -31,7 +31,7 @@
                             $activeStyles = "text-blue-600 border-b-2 border-blue-600";
                         @endphp --}}
                         <li class="mr-2">
-                            <a id="selected" type="button" onclick="changeTab(event)" class="text-blue-600 border-b-2 border-blue-600 cursor-pointer inline-block font-medium p-4 rounded-tl-lg hover:bg-gray-100">About</a>
+                            <a href="#about" id="selected" type="button" onclick="changeTab(event)" class="text-blue-600 border-b-2 border-blue-600 cursor-pointer inline-block font-medium p-4 rounded-tl-lg hover:bg-gray-100">About</a>
                         </li>
                         <li class="mr-2">
                             <a type="button" onclick="changeTab(event)" class="cursor-pointer inline-block p-4 hover:text-gray-600 hover:bg-gray-100">Photos</a>

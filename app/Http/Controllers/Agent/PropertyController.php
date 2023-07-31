@@ -39,7 +39,7 @@ class PropertyController extends Controller
     public function index($username)
     {
         $properties = Property::where('agent_id', Auth::guard('agents')->id())->orderByDesc('updated_at');
-
+        // dd($properties->first());
         return view('agent.properties.index', [
             'properties' => $properties->filter(request(['search']))->paginate(5),
             'username' => $username

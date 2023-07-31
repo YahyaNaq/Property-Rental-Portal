@@ -14,6 +14,7 @@
                         $defaultStyles = "bg-gray-900 text-white hover:bg-gray-700 hover:text-white ";
                     @endphp
                     <a href="/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
+                    <a href="/dashboard/offers-made" class="{{ $curUrl==$baseUrl . '/offers-made' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Offers made</a>
                     </div>
                 </div>
             </div>

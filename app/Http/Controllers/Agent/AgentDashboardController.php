@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Models\Agent;
 use App\Models\Property;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,5 +26,12 @@ class AgentDashboardController extends Controller
             'noOfPropsCurrentlyUp',
             'noOfPropsCurrentlyRented'
         ));
+    }
+
+    public function offers_list()
+    {
+        $properties = Agent::find(Auth::guard('agents')->id())->properties;
+        dd($properties->first());
+        return view('agent.dashboard.offers_list', compact('properties'));
     }
 }

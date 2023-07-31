@@ -23,8 +23,9 @@
                         <h5 class="text-lg">Currently rented</h5>
                         <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyRented }}</h5>
                     </div>
-                </div>                
+                </div>
                 <h5 class="my-4 text-2xl font-semibold">Properties currently uploaded</h5>
+                @if($properties->isNotEmpty())         
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <div class="pl-4 py-3 bg-indigo-200">
                         <label for="table-search" class="sr-only">Search</label>
@@ -100,6 +101,14 @@
                         </tbody>
                     </table>
                 </div>
+                @else
+                <div>
+                    <p class="text">You don't have any properies currently uploaded.</p>
+                    <p class="text mb-4">Add a new property to start with.</p>                  
+                    <a href="/" target="_blank" class="inline-flex items-center font-medium w-[5.15rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800">Add now</a>
+                </div>
+                @endif
+
             </div>
         </main>
         @if(session()->has('success'))

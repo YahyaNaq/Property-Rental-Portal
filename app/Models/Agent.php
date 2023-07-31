@@ -44,11 +44,6 @@ class Agent extends Authenticatable
         return $this->hasMany(Property::class);
     }
 
-    // public function views()
-    // {
-    //     return $this->hasMany(View::class);
-    // }
-
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);

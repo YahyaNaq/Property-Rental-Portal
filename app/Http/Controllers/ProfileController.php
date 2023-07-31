@@ -9,7 +9,8 @@ class ProfileController extends Controller
 {
     public function index($username)
     {
-        $user=User::where('username', $username)->firstOrFail();
+        $user=User::where('username', $username)->first();
+        if(!$user) abort(404, 'User not found');
         return view('profile.index', compact('user'));
     }
 }

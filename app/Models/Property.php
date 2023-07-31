@@ -38,4 +38,9 @@ class Property extends Model
         return $this->hasMany(View::class);
     }
 
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
+    
 }
