@@ -15,7 +15,7 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->onDelete('cascade')->nullable();;
+            $table->foreignId('user_id')->onDelete('cascade')->nullable();
             $table->foreignId('agent_id')->onDelete('cascade');
             $table->foreignId('category_id');
             $table->string('title', 100);
@@ -28,6 +28,7 @@ class CreatePropertiesTable extends Migration
             $table->unsignedTinyInteger('bathrooms');
             $table->timestamp('published_at')->nullable();
             $table->boolean('is_rented')->default(false);
+            $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });
     }

@@ -3,7 +3,8 @@
 
 const toggleMenu = () => {
     var menu = document.getElementById("menu");
-    menu.classList.toggle('hidden');
+    console.log(menu.parentElement);
+    // menu.classList.toggle('hidden');
 }
 
 const showNotifications = () => {

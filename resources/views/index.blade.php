@@ -2,7 +2,7 @@
     <div class="min-h-full">
         <x-header heading="Available Properties"/>
         <main>
-            {{-- {{dd()}} --}}
+        {{-- {{dd(Auth::guard('admins')->check())}} --}}
             <x-search uri="{{ request()->path() }}" />
             @if($properties->isNotEmpty())
                 <div class="flex flex-wrap gap-6 mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">

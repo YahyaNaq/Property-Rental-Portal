@@ -49,6 +49,10 @@ class PropertyController extends Controller
     public function show(Request $request, $username, $id)
     {
         $property = Property::findOrFail($id);
+
+        if (! Gate::allows('show-property', $property)) {
+            abort(403);
+        }
     
         return view('agent.properties.show', compact('property', 'username'));
 

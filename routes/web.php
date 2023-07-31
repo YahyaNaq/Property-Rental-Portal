@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(HomeController::class)->group(function(){
     Route::get('/', 'index')->name('home');
+    // Route::get('/', 'index')->name('home');
 });
 
 
@@ -43,6 +44,8 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
 Route::controller(AdminDashboardController::class)->middleware('auth:admins')->group(function(){
     Route::get('admin/dashboard', 'index');
+    Route::get('admin/dashboard/verify-property', 'verify_properties');
+    Route::get('admin/dashboard/agents', 'agents_list');
 });
 
 Route::controller(AgentDashboardController::class)->middleware('auth:agents')->group(function(){
@@ -53,7 +56,7 @@ Route::controller(AgentDashboardController::class)->middleware('auth:agents')->g
 Route::controller(PropertyController::class)->middleware('auth:agents')->group(function(){
     Route::get('/{username}/properties', 'index');
     
-    Route::get('/{username}/properties/{id}', 'show')->withoutMiddleware('auth:agents')->middleware('auth')
+    Route::get('/{username}/properties/{id}', 'show')->withoutMiddleware('auth:agents')->middleware(['auth', 'auth:admins'])
                                                         ->name('properties.show')
                                                         ->where('id', '[0-9]+');
     
@@ -82,7 +85,7 @@ Route::post('agent/logout', [AgentSessionsController::class, 'destroy'])->name('
 Route::controller(AdminSessionsController::class)->group(function (){
     Route::get('/admin/login', 'create')->name('admin.login');
     Route::post('/admin/login', 'store')->name('admin.store');
-    Route::get('/admin/logout', 'destroy')->name('admin.logout');
+    Route::post('/admin/logout', 'destroy')->name('admin.logout');
 });
 
 Route::controller(ProfileController::class)->group(function (){

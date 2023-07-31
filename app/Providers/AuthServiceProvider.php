@@ -37,6 +37,10 @@ class AuthServiceProvider extends ServiceProvider
             return $agent->id === $property->agent_id;
         });
 
+        Gate::define('show-property', function (Agent $agent, Property $property) {
+            return $agent->id === $property->agent_id;
+        });
+
         $this->registerPolicies();
 
         //
