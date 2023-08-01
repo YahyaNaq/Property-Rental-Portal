@@ -14,12 +14,12 @@ class Offer extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function property()
     {
-        $this->belongsTo(Property::class);
+        return $this->belongsTo(Property::class);
     }
 
 }
