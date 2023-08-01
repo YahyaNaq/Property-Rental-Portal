@@ -30,8 +30,11 @@ class AgentDashboardController extends Controller
 
     public function offers_list()
     {
-        $properties = Agent::find(Auth::guard('agents')->id())->properties;
-        dd($properties->first());
-        return view('agent.dashboard.offers_list', compact('properties'));
+        $properties = Agent::find(Auth::guard('agents')->id())->properties->where('is_verified', true);
+        // dd($properties);
+        $offers= $properties->filter(function ($property) {
+            return $property->offers->isNotEmpty();
+        });
+        return view('agent.dashboard.offers_list', compact('properties', 'offers'));
     }
 }

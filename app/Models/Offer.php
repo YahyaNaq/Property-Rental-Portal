@@ -10,6 +10,8 @@ class Offer extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function user()
     {
         $this->belongsTo(User::class);

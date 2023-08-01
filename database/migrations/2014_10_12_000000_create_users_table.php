@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('full_name');
             $table->string('username')->unique();
+            $table->string('img_path')->nullable();
             $table->unsignedSmallInteger('properties_took_for_rent');
             $table->string('email')->unique();
             $table->string('phone_number', 19)->nullable()->unique();

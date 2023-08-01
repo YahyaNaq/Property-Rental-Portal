@@ -17,6 +17,7 @@ class CreateAgentsTable extends Migration
             $table->id();
             $table->string('full_name');
             $table->string('username')->unique();
+            $table->string('img_path')->nullable();
             $table->unsignedSmallInteger('properties_rented');
             $table->unsignedSmallInteger('properties_uploaded');
             $table->string('email')->unique();

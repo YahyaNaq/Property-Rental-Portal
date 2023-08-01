@@ -17,9 +17,10 @@ class CreateOffersTable extends Migration
             $table->id();
             $table->foreignId('property_id')->onDelete('cascade');
             $table->foreignId('user_id')->onDelete('cascade');
+            $table->string('message');
             $table->unsignedBigInteger('amount_offered');
-            $table->boolean('is_pending')->default(true);
             $table->unsignedBigInteger('accepted_at_amount')->nullable();
+            $table->boolean('is_pending')->default(true);
             $table->timestamps();
         });
     }

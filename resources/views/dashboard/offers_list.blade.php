@@ -3,12 +3,13 @@
         @include('dashboard/_nav')
         @include('dashboard/_header', ['heading' => 'Rent Offers made by you'])
         <main>
+            {{-- {{dd($offers);}} --}}
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             @if($offers->isNotEmpty())
                 <h1>Total offers</h1>
                 @foreach($offers as $offer)
                     <div>
-                        <p>{{ $offer['amount'] }}</p>
+                        <p>{{ $offer['amount_offered'] }}</p>
                     </div>
                 @endforeach
             @else

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Offer;
 use App\Models\Property;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -50,9 +51,10 @@ class PropertyController extends Controller
     {
         $property = Property::findOrFail($id);
 
-        if (! Gate::allows('show-property', $property)) {
-            abort(403);
-        }
+        // if (! Gate::allows('show-property', $property)) {
+        //     abort(403);
+        // }
+        // dd($property);
     
         return view('agent.properties.show', compact('property', 'username'));
 
@@ -69,7 +71,7 @@ class PropertyController extends Controller
     public function edit($username, $id)
     {
         $property = Property::findOrFail($id);
-
+        
         if (! Gate::allows('edit-property', $property)) {
             abort(403);
         }
@@ -109,17 +111,45 @@ class PropertyController extends Controller
         return redirect("/$username/properties");
     }
 
-    public function setStatus($id)
+    // public function setStatus($id)
+    // {
+    //     $property = Property::findOrFail($id);
+
+    //     if (! Gate::allows('set-property-status', $property)) {
+    //         abort(403);
+    //     }
+
+    //     $property->update([ 'is_rented', !$property['is_rented'] ]);
+
+    //     // return redirect();
+    // }
+
+    public function createOffer($username, $id)
     {
-        $property = Property::findOrFail($id);
+        $property= Property::findOrFail($id);
 
-        if (! Gate::allows('set-property-status', $property)) {
-            abort(403);
-        }
+        return view('agent.properties.make-offer', compact('property', 'username'));
+    }
 
-        $property->update([ 'is_rented', !$property['is_rented'] ]);
+    public function storeOffer(Request $request, $username, $id)
+    {
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
+        $data['property_id'] = $id;
+        
+        Validator::make($data, [
+            'offer_amount' => ['integer', 'required'],
+            'message' => ['required', 'max:50', 'max:300']
+            ])->validate();
+            
+        $data['amount_offered'] = $data['offer_amount'];
+        unset($data['offer_amount']);
 
-        // return redirect();
+        Offer::create($data);
+
+        session()->flash('success', 'Offer sent');
+        
+        return redirect("/dashboard/offers-made");
     }
 
     public function update(Request $request, $username, $id)

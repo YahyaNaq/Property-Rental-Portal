@@ -9,7 +9,7 @@
                     <div class="flex items-center gap-6 my-5">
                         <a class="flex items-center gap-2">
                             <img src="{{asset("assets/images/dp.jpg")}}" class="h-8 rounded-full" alt="">
-                            <h5 class="text-md font-medium">{{ $property->user->full_name }}</h5>
+                            <h5 class="text-md font-medium">{{ $property->agent->full_name }}</h5>
                         </a>
                         <h1 class="text-sm text-gray-500">Posted {{ $property['created_at']->diffForHumans() }}</h1>
                     </div>
@@ -18,18 +18,11 @@
                             <h1 class="text-lg">PKR</h1>
                             <h5 class="text-3xl">{{ number_format($property['monthly_rent']) }}</h5>
                         </span>
-                        <button onclick="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Make Offer</button>
+                        <a href="/{{$username}}/properties/{{$property['id']}}/make-offer" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Make Offer</a>
                     </div>
                 </div>
                 <div class="w-full bg-white rounded-lg">
                     <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
-                        {{-- @php 
-                            // To update after updating this project to laravel 10
-                            $baseUrl = "/$username/properties/" . $property['id'];
-                            $curUrl = "/" . request()->path();
-                            // dd($baseUrl, $curUrl);
-                            $activeStyles = "text-blue-600 border-b-2 border-blue-600";
-                        @endphp --}}
                         <li class="mr-2">
                             <a href="#about" id="selected" type="button" onclick="changeTab(event)" class="text-blue-600 border-b-2 border-blue-600 cursor-pointer inline-block font-medium p-4 rounded-tl-lg hover:bg-gray-100">About</a>
                         </li>
@@ -43,23 +36,26 @@
                     <div>
                     {{-- @if($curUrl==$baseUrl) --}}
                     {{-- About --}}
-                    <div id="about" class="max-h-72 overflow-auto p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800">
-                        <p class="mb-3 text-gray-600 dark:text-gray-400">
-                            {{ $property['description'] }}
+                    <div id="about" class="max-h-88 overflow-auto p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800">
+                        <p class="text-gray-600 dark:text-gray-400">
+                            {{ substr($property['description'], 0, 600) }}<span id='more_dots'>...</span>
+                            <span id="more_desc" class="hidden">{{ substr($property['description'], 600, 2000) }}</span>
+                            <span class="text-black mb-3 font-medium cursor-pointer" onclick="loadMore(event)"> See More</span>
                         </p>
-                        <div class="grid grid-col-3 mb-3 text-gray-600 dark:text-gray-400">
+                        <h5 class="text-lg font-semibold mt-6 mb-2">Highlighted details</h5>
+                        <div class="flex flex-wrap gap-x-24 gap-2 mb-3 text-gray-600 dark:text-gray-400">
                             <div class="flex items-center gap-2">
-                                <img src="{{asset("assets/icons/location.svg")}}" class="h-4" alt="">
+                                <img src="{{asset("assets/icons/bed.svg")}}" class="grayscale h-4" alt="">
                                 <h5 class="mr-2 text-gray-700">Bedrooms</h5>
                                 <h5 class="text-gray-800 font-medium">{{ $property['bedrooms'] }}</h5>
                             </div>
                             <div class="flex items-center gap-2">
-                                <img src="{{asset("assets/icons/location.svg")}}" class="h-4" alt="">
+                                <img src="{{asset("assets/icons/bath.svg")}}" class="h-4" alt="">
                                 <h5 class="mr-2 text-gray-700">Bathrooms</h5>
                                 <h5 class="text-gray-800 font-medium">{{ $property['bathrooms'] }}</h5>
                             </div>
                             <div class="flex items-center gap-2">
-                                <img src="{{asset("assets/icons/location.svg")}}" class="h-4" alt="">
+                                <img src="{{asset("assets/icons/area.svg")}}" class="h-[1.158rem]" alt="">
                                 <h5 class="mr-2 text-gray-700">Area</h5>
                                 <h5 class="text-gray-800 font-medium">{{ $property['area'] }} sq ft</h5>
                             </div>

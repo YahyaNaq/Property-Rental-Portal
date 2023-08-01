@@ -56,9 +56,12 @@ Route::controller(AgentDashboardController::class)->middleware('auth:agents')->g
 Route::controller(PropertyController::class)->middleware('auth:agents')->group(function(){
     Route::get('/{username}/properties', 'index');
     
-    Route::get('/{username}/properties/{id}', 'show')->withoutMiddleware('auth:agents')->middleware(['auth', 'auth:admins'])
+    Route::get('/{username}/properties/{id}', 'show')->withoutMiddleware('auth:agents')
                                                         ->name('properties.show')
                                                         ->where('id', '[0-9]+');
+
+    Route::get('/{username}/properties/{id}/make-offer', 'createOffer')->withoutMiddleware('auth:agents')->where('id', '[0-9]+');
+    Route::post('/{username}/properties/{id}/make-offer', 'storeOffer')->name('store-offer')->withoutMiddleware('auth:agents')->where('id', '[0-9]+');
     
     Route::get('/{username}/properties/new', 'create');
     Route::post('/{username}/properties/new','store')->name('store');

@@ -9,13 +9,13 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // $properties = Property::where('is_rented', false)->orderByDesc('created_at');
+        $properties = Property::where('is_rented', false)->orderByDesc('created_at');
 
-        // return view('index', [
-        //     'properties' => $properties->filter(request(['search']))->paginate(8)
-        // ]);
+        return view('index', [
+            'properties' => $properties->filter(request(['search']))->paginate(8)
+        ]);
 
-        return view('landing');
+        // return view('landing');
     }
 
     public function show($id)

@@ -7,27 +7,39 @@
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                 <div class="flex flex-wrap gap-x-8 mb-16 gap-y-3">
                     <h5 class="basis-full my-4 text-2xl font-semibold">Total number of properties by you</h5>
-                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
-                        <h5 class="text-lg">Uploaded</h5>
-                        <h5 class="text-4xl font-bold">{{ $noOfPropsUp }}</h5>
+                    <div class="text-white min-w-48 w-64 text-right px-4 py-4 bg-gradient-to-r from-sky-400 via-sky-600 to-sky-900 shadow-lg rounded-lg">
+                        <h5 class="text-sm pb-1">Uploaded</h5>
+                        <div class="flex justify-between items-center">
+                            <img class="w-14" src="{{asset("assets/icons/upload.svg")}}" alt="">
+                            <h5 class="text-4xl font-bold">{{ $noOfPropsUp }}</h5>
+                        </div>
                     </div>
-                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
-                        <h5 class="text-lg">Currently uploaded</h5>
-                        <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyUp }}</h5>
+                    <div class="text-white min-w-48 w-64 text-right px-4 py-4 bg-gradient-to-r from-indigo-300 from-10% via-indigo-600 to-indigo-900 shadow-lg rounded-lg">
+                        <h5 class="text-sm pb-1">Rented</h5>
+                        <div class="flex justify-between items-center">
+                            <img class="w-14" src="{{asset("assets/icons/housekey.svg")}}" alt="">
+                            <h5 class="text-4xl font-bold">{{ $noOfPropsRented }}</h5>
+                        </div>
                     </div>
-                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
-                        <h5 class="text-lg">Rented</h5>
-                        <h5 class="text-4xl font-bold">{{ $noOfPropsRented }}</h5>
+                    <div class="text-white min-w-48 w-64 text-right px-4 py-4 bg-gradient-to-r from-sky-400 via-sky-600 to-sky-900 shadow-lg rounded-lg">
+                        <h5 class="text-sm pb-1">Currently uploaded</h5>
+                        <div class="flex justify-between items-center">
+                            <img class="w-14" src="{{asset("assets/icons/upload.svg")}}" alt="">
+                            <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyUp }}</h5>
+                        </div>
                     </div>
-                    <div class="min-w-40 text-center p-6 bg-indigo-100 shadow rounded-lg">
-                        <h5 class="text-lg">Currently rented</h5>
-                        <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyRented }}</h5>
+                    <div class="text-white min-w-48 w-64 text-right px-4 py-4 bg-gradient-to-r from-indigo-300 from-10% via-indigo-600 to-indigo-900 shadow-lg rounded-lg">
+                        <h5 class="text-sm pb-1">Currently rented</h5>
+                        <div class="flex justify-between items-center">
+                            <img class="w-14" src="{{asset("assets/icons/housekey.svg")}}" alt="">
+                            <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyRented }}</h5>
+                        </div>
                     </div>
                 </div>
                 <h5 class="my-4 text-2xl font-semibold">Properties currently uploaded</h5>
                 @if($properties->isNotEmpty())         
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <div class="pl-4 py-3 bg-indigo-200">
+                    <div class="pl-4 py-3 bg-indigo-300">
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative mt-1">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -53,11 +65,15 @@
                                 <th scope="col" class="px-6 py-3">
                                     City
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="text-center px-6 py-3">
                                     Views
                                 </th>
+                                <th scope="col" class="text-center p-4">
+                                    Status
+                                </th>
                                 <th scope="col" class="p-4">
-                                    <h5>Rented</h5>
+                                    <div class="flex items-center">
+                                    </div>
                                 </th>
                                 <th scope="col" class="p-4">
                                     <div class="flex items-center">
@@ -80,20 +96,24 @@
                                     <td class="px-6 py-4">
                                         {{ $property['city'] }}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 text-center">
                                         {{ $property->views->count() }}
                                     </td>
                                     <td class="w-4 p-4">
-                                        <div class="flex items-center px-auto">
-                                            <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                        </div>
+                                        {{ $property->is_rented ? 'Rented' : 'Vacant'; }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <a 
                                         href="/{{$property->agent->username}}/properties/edit/{{$property->id}}"
                                         class="font-medium text-blue-600 hover:underline">
                                             Edit
+                                        </a>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <a 
+                                        href="/{{$property->agent->username}}/properties/{{$property->id}}"
+                                        class="font-medium text-green-600 hover:underline">
+                                            Show
                                         </a>
                                     </td>
                                 </tr>

@@ -23,17 +23,14 @@
                                     Location
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    City
-                                </th>
-                                <th scope="col" class="text-center px-6 py-3">
-                                    Views
-                                </th>
-                                <th scope="col" class="text-center p-4">
-                                    <h5>Status</h5>
+                                    Agent name
                                 </th>
                                 <th scope="col" class="p-4">
                                     <div class="flex items-center">
                                     </div>
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Verification
                                 </th>
                             </tr>
                         </thead>
@@ -47,23 +44,29 @@
                                         {{ $property->category->name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $property['location'] }}
+                                        {{ $property['location'] }}, {{ $property['city'] }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $property['city'] }}
+                                        {{ $property->agent->full_name }}
                                     </td>
-                                    <td class="px-6 py-4 text-center">
-                                        {{ $property->views->count() }}
-                                    </td>
-                                    <td class="w-4 p-4 ">
-                                        {{ $property->is_rented ? 'Rented' : 'Vacant'; }}
-                                    </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-5 py-4">
                                         <a 
                                         href="/{{$property->user->username}}/properties/edit/{{$property->id}}"
-                                        class="font-medium text-blue-600 hover:underline">
+                                        class="font-medium text-blue-600 hover:text-blue-800">
                                             Edit
                                         </a>
+                                    </td>
+                                    <td class="px-4 py-4 pr-2">
+                                        <div
+                                        onclick="toggleDropdown(event)"
+                                        class="w-24 justify-center flex gap-1 items-center px-2.5 py-1.5 border-yellow-500 border rounded-lg font-medium bg-yellow-100 text-gray-600 hover:text-black">
+                                            <h5>Pending</h5>
+                                            <img src="{{asset("assets/icons/arrow-down.svg")}}" alt="" class="w-4">
+                                        </div>
+                                        <div class="hidden z-100 absolute mt-1 bg-white shadow p-1 rounded-lg border border-gray-200">
+                                            <h5 class="p-1 border-b ">Verify</h5>
+                                            <h5 class="p-1 ">Reject</h5>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
