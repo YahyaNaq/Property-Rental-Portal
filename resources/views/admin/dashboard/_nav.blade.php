@@ -16,6 +16,7 @@
                     <a href="/admin/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
                     <a href="/admin/dashboard/verify-property" class="{{ $curUrl==$baseUrl . '/verify-property' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Verify Property</a>
                     <a href="/admin/dashboard/agents" class="{{ $curUrl==$baseUrl . '/agents' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Agents</a>
+                    <a href="/admin/dashboard/rent-offers" class="{{ $curUrl==$baseUrl . '/rent-offers' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Rent Offers</a>
                     {{-- <a href="/{{$username}}/properties/new" class="{{ $curUrl==$baseUrl . '/new' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Add new</a> --}}
                     </div>
                 </div>

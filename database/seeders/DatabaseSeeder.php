@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(3)->create();
+        User::factory(20)->create();
         $agents = Agent::factory(3)->create();
 
         $this->call(CategorySeeder::class);

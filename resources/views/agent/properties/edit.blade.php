@@ -1,6 +1,5 @@
 <x-agent.layout title="Edit a Property">
     <section class="min-h-full">
-        @include('agent/properties/_nav')
         @include('dashboard/_header', ['heading' => 'Edit a Property'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
@@ -153,7 +152,7 @@
                     </div>
         
                     <div class="mt-6 flex items-center justify-end gap-x-6">
-                        <a href="{{$username}}/properties" class="rounded-md bg-gray-300/[0.7] py-2 px-3 text-sm font-semibold text-black">Cancel</a>
+                        <a href="/{{$username}}/properties" class="rounded-md bg-gray-300/[0.7] py-2 px-3 text-sm font-semibold text-black">Cancel</a>
                         <button type="submit" class="rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
                     </div>
                 </form>

@@ -18,8 +18,6 @@ class CreateAdminsTable extends Migration
             $table->string('full_name');
             $table->string('username')->unique();
             $table->string('img_path')->nullable();
-            $table->unsignedSmallInteger('properties_rented');
-            $table->unsignedSmallInteger('properties_uploaded');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

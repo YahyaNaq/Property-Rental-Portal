@@ -1,6 +1,6 @@
-<x-layout title="Available Properties">
+<x-admin.layout title="Available Properties">
     <div class="min-h-full">
-        <x-header heading="Available Properties"/>
+        <x-admin.header heading="Available Properties"/>
             
             <x-home :properties="$properties"/>
 
@@ -8,4 +8,4 @@
             <x-flash/>
         @endif
     </div>
-</x-layout>
+</x-admin.layout>

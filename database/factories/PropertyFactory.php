@@ -16,7 +16,7 @@ class PropertyFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => null,
             'agent_id' => Agent::factory(),
             'category_id' => rand(1,4),
             'title' => $this->faker->text(40),

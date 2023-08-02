@@ -22,4 +22,15 @@ class DashboardController extends Controller
     
         return view('dashboard.offers_list', compact('offers'));
     }
+
+    public function offers_accepted_list()
+    {
+        $offers_accepted = Offer::where('is_pending', false)->whereNotNull('accepted_at_amount')
+                                    ->where('user_id', Auth::id())->get();
+
+        $offers_pending = Offer::where('is_pending', true)->where('user_id', Auth::id())
+                                    ->take(2)->get();
+    
+        return view('dashboard.offers_accepted_list', compact('offers_accepted','offers_pending'));
+    }
 }

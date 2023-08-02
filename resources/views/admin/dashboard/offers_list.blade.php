@@ -1,6 +1,6 @@
-<x-agent.layout title="Analytics">
+<x-admin.layout title="Analytics">
     <div class="min-h-full">
-        @include('agent/dashboard/_nav')
+        @include('admin/dashboard/_nav')
         @include('dashboard/_header', ['heading' => 'Rent Offers for your properties'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
@@ -62,7 +62,7 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <a 
-                                            href="/{{$offer->property->agent->username}}/properties/{{$offer->property->id}}"
+                                            href="/{{$offer->property->user->username}}/properties/{{$offer->property->id}}"
                                             class="font-medium text-green-600 hover:underline">
                                                 Show
                                             </a>
@@ -73,16 +73,16 @@
                         </table>
                     </div>
                 @elseif($properties->isNotEmpty())
-                <div>
-                    <p class="text-lg">No pending offers for renting your properties.</p>
-                    <p class="text-lg mb-4">Improve your property ads to receive offers.</p>                 
-                    <a href="/{{Auth::guard('agents')->user()->username}}/properties" target="_blank" class="inline-flex items-center font-medium w-[5.1rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800">Your Ads</a>
-                </div>
-                @else
                     <div>
                         <p class="text-lg">You currently don't have any properties.</p>
                         <p class="text-lg mb-4">Add a property ad to receive offers.</p>                  
-                        <a href="/{{Auth::guard('agents')->user()->username}}/properties/new" target="_blank" class="inline-flex items-center font-medium w-[5.25rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800">Add Now</a>
+                        <a href="/{{$properties[0]->agent->username}}/properties/new" target="_blank" class="inline-flex items-center font-medium w-[5.25rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800">Add Now</a>
+                    </div>
+                @else
+                    <div>
+                        <p class="text-lg">No pending offers for renting your properties.</p>
+                        <p class="text-lg mb-4">Improve your property ads to receive offers.</p>                 
+                        <a href="/{{$properties[0]->agent->username}}/properties" target="_blank" class="inline-flex items-center font-medium w-[5.1rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800">Your Ads</a>
                     </div>
                 @endif
             </div>
@@ -91,4 +91,4 @@
             <x-flash/>
         @endif
     </div>
-</x-agent.layout>
+</x-admin.layout>

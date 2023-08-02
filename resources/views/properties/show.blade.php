@@ -1,5 +1,5 @@
-<x-agent.layout title="{{ $property['title'] }}">
+<x-layout title="{{ $property['title'] }}">
     <div class="min-h-full">
         <x-show_card :property="$property" :username="$username" />
     </div>
-</x-agent.layout>
+</x-layout>

@@ -17,8 +17,6 @@ class AdminSeeder extends Seeder
         Admin::insert([
             'full_name' => 'Yahya Naqvi',
             'username' => 'yahyan',
-            'properties_uploaded' => 0,
-            'properties_rented' => 0,
             'email' => 'yahya@example.com',
             'email_verified_at' => now(),
             'password' => bcrypt(12345678), // password

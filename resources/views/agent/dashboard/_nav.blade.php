@@ -15,6 +15,7 @@
                     @endphp
                     <a href="/agent/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
                     <a href="/agent/dashboard/rent-offers" class="{{ $curUrl==$baseUrl . "/rent-offers" ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Rent Offers</a>
+                    <a href="/agent/dashboard/ad-views" class="{{ $curUrl==$baseUrl . "/ad-views" ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Recent Views</a>
                     </div>
                 </div>
             </div>

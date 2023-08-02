@@ -22,7 +22,6 @@ class PropertyObserver
         if 
         (Auth::user()
         && url()->current()==route('properties.show', $data)
-        && Auth::id()!=$property->user_id
         && !(View::where('property_id', $property->id)
                 ->where('user_id', Auth::id())->first()))
         {

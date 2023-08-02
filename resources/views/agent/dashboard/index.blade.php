@@ -7,28 +7,28 @@
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                 <div class="flex flex-wrap gap-x-8 mb-16 gap-y-3">
                     <h5 class="basis-full my-4 text-2xl font-semibold">Total number of properties by you</h5>
-                    <div class="text-white min-w-48 w-64 text-right px-4 py-4 bg-gradient-to-r from-sky-400 via-sky-600 to-sky-900 shadow-lg rounded-lg">
+                    <div class="text-gray-800 min-w-48 w-64 text-right px-4 py-4 bg-sky-100 shadow-lg rounded-lg">
                         <h5 class="text-sm pb-1">Uploaded</h5>
                         <div class="flex justify-between items-center">
                             <img class="w-14" src="{{asset("assets/icons/upload.svg")}}" alt="">
                             <h5 class="text-4xl font-bold">{{ $noOfPropsUp }}</h5>
                         </div>
                     </div>
-                    <div class="text-white min-w-48 w-64 text-right px-4 py-4 bg-gradient-to-r from-indigo-300 from-10% via-indigo-600 to-indigo-900 shadow-lg rounded-lg">
+                    <div class="text-gray-800 min-w-48 w-64 text-right px-4 py-4 bg-indigo-200 shadow-lg rounded-lg">
                         <h5 class="text-sm pb-1">Rented</h5>
                         <div class="flex justify-between items-center">
                             <img class="w-14" src="{{asset("assets/icons/housekey.svg")}}" alt="">
                             <h5 class="text-4xl font-bold">{{ $noOfPropsRented }}</h5>
                         </div>
                     </div>
-                    <div class="text-white min-w-48 w-64 text-right px-4 py-4 bg-gradient-to-r from-sky-400 via-sky-600 to-sky-900 shadow-lg rounded-lg">
+                    <div class="text-gray-800 min-w-48 w-64 text-right px-4 py-4 bg-sky-100 shadow-lg rounded-lg">
                         <h5 class="text-sm pb-1">Currently uploaded</h5>
                         <div class="flex justify-between items-center">
                             <img class="w-14" src="{{asset("assets/icons/upload.svg")}}" alt="">
                             <h5 class="text-4xl font-bold">{{ $noOfPropsCurrentlyUp }}</h5>
                         </div>
                     </div>
-                    <div class="text-white min-w-48 w-64 text-right px-4 py-4 bg-gradient-to-r from-indigo-300 from-10% via-indigo-600 to-indigo-900 shadow-lg rounded-lg">
+                    <div class="text-gray-800 min-w-48 w-64 text-right px-4 py-4 bg-indigo-200 shadow-lg rounded-lg">
                         <h5 class="text-sm pb-1">Currently rented</h5>
                         <div class="flex justify-between items-center">
                             <img class="w-14" src="{{asset("assets/icons/housekey.svg")}}" alt="">

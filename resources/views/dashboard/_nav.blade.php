@@ -15,7 +15,8 @@
                     @endphp
                     <a href="/dashboard" class="{{ $curUrl==$baseUrl ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Analytics</a>
                     <a href="/dashboard/offers-made" class="{{ $curUrl==$baseUrl . '/offers-made' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Offers made</a>
-                    </div>
+                    <a href="/dashboard/offers-accepted" class="{{ $curUrl==$baseUrl . '/offers-accepted' ? $activeStyles : $defaultStyles; }} px-2 py-1 rounded-md text-sm">Offers Accepted</a>
+                </div>
                 </div>
             </div>
         </div>
