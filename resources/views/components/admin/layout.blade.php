@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>{{ $title }}</title>
 </head>
 <body class="h-full">

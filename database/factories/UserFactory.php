@@ -15,6 +15,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
+            'property_id' => null,
             'full_name' => $this->faker->name(),
             'username' => $this->faker->userName,
             'properties_took_for_rent' => 0,

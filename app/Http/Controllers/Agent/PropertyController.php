@@ -72,9 +72,12 @@ class PropertyController extends Controller
     {
         $property = Property::findOrFail($id);
 
-        if (!Gate::allows('edit-property', $property)) {
-            abort(403);
+        if (Auth::guard('agents')->check()) {
+            if (!Gate::allows('edit-property', $property)) {
+                abort(403);
+            }
         }
+
         return view('agent.properties.edit')
             ->with('property', $property)
             ->with('username', $username)
@@ -110,19 +113,6 @@ class PropertyController extends Controller
 
         return redirect("/$username/properties");
     }
-
-    // public function setStatus($id)
-    // {
-    //     $property = Property::findOrFail($id);
-
-    //     if (! Gate::allows('set-property-status', $property)) {
-    //         abort(403);
-    //     }
-
-    //     $property->update([ 'is_rented', !$property['is_rented'] ]);
-
-    //     // return redirect();
-    // }
 
     public function createOffer($username, $id)
     {

@@ -4,7 +4,13 @@
         @include('dashboard/_header', ['heading' => 'Rent Offers made by you'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            @if($offers->isNotEmpty())
+            @if(Auth::user()->property)
+                <div>
+                    <p>You cannot make offers while renting a property.</p>
+                    <p>No offers found</p>
+                </div>
+            @elseif($offers->isNotEmpty())
+                
                 <h5 class="my-4 text-2xl font-semibold">Offers pending</h5>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <div class="pl-4 py-3 bg-indigo-300">
@@ -28,6 +34,9 @@
                                     Agent Name
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    Message
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Rent (Rs)
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -49,6 +58,9 @@
                                         {{ $offer->property->agent->full_name }}
                                     </td>
                                     <td class="px-6 py-4">
+                                        {{ $offer['message'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
                                         {{ $offer->property->monthly_rent }}
                                     </td>
                                     <td class="px-6 py-4">
@@ -57,8 +69,8 @@
                                     <td class="px-6 py-4">
                                         <a 
                                         href="/{{$offer->property->agent->username}}/properties/{{$offer->property->id}}"
-                                        class="font-medium text-green-600 hover:underline">
-                                            Show
+                                        class="font-medium text-teal-700 hover:underline">
+                                            Show Property
                                         </a>
                                     </td>
                                 </tr>

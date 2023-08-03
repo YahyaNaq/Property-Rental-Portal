@@ -4,9 +4,13 @@
         @include('dashboard/_header', ['heading' => 'Rent Offers accepted'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            @if($offers_accepted->isNotEmpty())
-                {{-- {{dd('Hello')}} --}}
-                <h5 class="my-4 text-2xl font-semibold">Offers accepted</h5>
+            @if($user->property ?? false)
+                <div>
+                    You can't select an offer if you have rented a property
+                </div>
+            @elseif($offers_accepted->isNotEmpty())
+                <h5 class="mt-3 mb-1 text-2xl font-semibold">Offers accepted</h5>
+                <p class="mb-6">Once your select a property for rent, other offers will be rejected</p>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <div class="pl-4 py-3 bg-indigo-300">
                         <label for="table-search" class="sr-only">Search</label>
@@ -27,6 +31,9 @@
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Agent Name
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Message
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Rent (Rs)
@@ -54,6 +61,9 @@
                                         {{ $offer->property->agent->full_name }}
                                     </td>
                                     <td class="px-6 py-4">
+                                        {{ $offer['message'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
                                         {{ $offer->property->monthly_rent }}
                                     </td>
                                     <td class="px-6 py-4">
@@ -62,16 +72,17 @@
                                     <td class="px-6 py-4">
                                         <a 
                                         href="/{{$offer->property->agent->username}}/properties/{{$offer->property->id}}"
-                                        class="font-medium text-green-600 hover:underline">
-                                            Show
+                                        class="font-medium text-teal-700 hover:underline">
+                                            Show Property
                                         </a>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <a 
-                                        href="/{{$offer->property->agent->username}}/properties/{{$offer->property->id}}"
-                                        class="bg-indigo-600 px-3 py-2 font-medium rounded-lg text-white hover:bg-indigo-700">
-                                            Select
-                                        </a>
+                                    <td class="px-4 py-4">
+                                        <form action="{{route('offers.select', ['id' => $offer['id']])}}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="bg-indigo-600 px-3 py-2 font-medium rounded-lg text-white hover:bg-indigo-700">
+                                                Select
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

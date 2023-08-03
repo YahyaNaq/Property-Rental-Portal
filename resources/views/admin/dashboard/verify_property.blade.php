@@ -36,7 +36,7 @@
                         </thead>
                         <tbody>
                             @foreach($properties as $property)
-                                <tr class="bg-white border-b hover:bg-gray-50 cursor-pointer">
+                                <tr class="bg-white border-b hover:bg-gray-50 cursor-pointer" >
                                     <th scope="row" class="px-6 py-4 font-medium text">
                                         {{ $property['title'] }}
                                     </th>
@@ -56,32 +56,34 @@
                                             Edit
                                         </a>
                                     </td>
-                                    <td class="px-4 py-4 pr-2">
-                                        {{-- <div
-                                        onclick="toggleDropdown(event)"
-                                        class="w-24 justify-center flex gap-1 items-center px-2.5 py-1.5 border-yellow-500 border rounded-lg font-medium bg-yellow-100 text-gray-600 hover:text-black">
-                                            <h5>Pending</h5>
-                                            <img src="{{asset("assets/icons/arrow-down.svg")}}" alt="" class="w-4">
-                                        </div>
-                                        <div class="hidden z-100 absolute mt-1 bg-white shadow p-1 rounded-lg border border-gray-200">
-                                            <h5 class="p-1 border-b ">Verify</h5>
-                                            <h5 class="p-1 ">Reject</h5>
-                                        </div> --}}                                        
-                                        <button id="dropdownDefaultButton" data-id = "{{$property['id']}}" data-dropdown-toggle="dropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Pending <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    {{-- <td class="px-5 py-4">
+                                        <a 
+                                        href="/{{$property->agent->username}}/properties/edit/{{$property->id}}"
+                                        class="font-medium text-blue-600 hover:text-blue-800">
+                                            Show
+                                        </a>
+                                    </td> --}}
+                                    <td class="px-4 py-4 pr-2">                                     
+                                        <button id="dropdownDefaultButton" data-id = "{{$property['id']}}" data-dropdown-toggle="dropdown" class="w-24 justify-center flex gap-1 items-center px-2.5 py-1.5 border-yellow-500 border rounded-lg font-medium bg-yellow-100 text-gray-600 hover:text-black dropdown_{{$property['id']}}" type="button">Pending <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                                         </svg></button>
                                         <!-- Dropdown menu -->
-                                        <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                        <div id="dropdown" class="dropdown_{{$property['id']}} z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-24">
                                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                                             <li>
-                                                <a href="#" id="{{$property['id']}}" class="verify block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Verify</a>
+                                                <button id="{{$property['id']}}" class="w-full verify block px-3 py-1.5 hover:text-black hover:font-medium">
+                                                    Verify
+                                                </button>
                                             </li>
                                             <li>
-                                                <a href="#" id="{{$property['id']}}" class="refute block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Refute</a>
+                                                <button id="{{$property['id']}}" class="w-full reject block px-3 py-1.5 hover:text-black hover:font-medium">
+                                                    Reject
+                                                </button>
                                             </li>
                                             </ul>
                                         </div>
-
+                                        <h5 class="hidden v-status px-4 font-semibold text-green-700" id="verify_{{$property['id']}}">Verified</h5>
+                                        <h5 class="hidden r-status px-4 font-semibold text-red-600" id="reject_{{$property['id']}}">Rejected</h5>
                                     </td>
                                 </tr>
                             @endforeach
@@ -101,6 +103,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+
     var id = null;
     $('body').on('click','#dropdownDefaultButton', function() {
          id = $(this).attr("data-id");
@@ -108,24 +111,41 @@ $(document).ready(function(){
 
     $('body').on('click','.verify', function(){
            $.ajax({
-            url: 'your_ajax_url', // Replace with your actual AJAX URL
-            method: 'POST', // or 'GET', 'PUT', 'DELETE', etc., depending on your backend
-            data: { id: id }, // Data to send in the AJAX request
+            url: '{{ route('verify-property') }}',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            data: { id: id },
+
             success: function(response) {
-                // Handle the AJAX response here
-                console.log(response);
+                $('.dropdown'+ '_'+ id).addClass('hidden')
+                $('#verify' + '_'+ id).removeClass('hidden')
+
             },
             error: function(error) {
-                // Handle the AJAX error here
+            }
+        });
+
+    })
+    $('body').on('click','.reject', function(){
+           $.ajax({
+            url: '{{ route('reject-property') }}',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            data: { id: id },
+
+            success: function(response) {
+                $('.dropdown'+ '_'+ id).addClass('hidden')
+                $('#reject' + '_'+ id).removeClass('hidden')
+            },
+            error: function(error) {
                 console.error(error);
             }
         });
     });
-
-    })
-
-   
 })
-
 </script>
 

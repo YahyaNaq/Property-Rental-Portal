@@ -38,14 +38,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // public function properties()
-    // {
-    //     return $this->hasMany(Property::class);
-    // }
-
     public function views()
     {
         return $this->hasMany(View::class);
+    }
+
+    public function property()
+    {
+        return $this->hasOne(Property::class);
     }
 
     public function setPasswordAttribute($password)

@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AdminSessionsController;
 use App\Http\Controllers\Agent\AgentDashboardController;
+use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\Agent\AgentSessionsController;
 use App\Http\Controllers\Agent\PropertyController;
 use App\Http\Controllers\DashboardController;
@@ -40,11 +42,17 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::get('/dashboard', 'index');
     Route::get('/dashboard/offers-made', 'offers_list');
     Route::get('/dashboard/offers-accepted', 'offers_accepted_list');
+    Route::get('/dashboard/offers-accepted', 'offers_accepted_list');
+    Route::post('/dashboard/offers-accepted/select/{id}', 'select_offer')->name('offers.select');
 });
 
 Route::controller(AdminDashboardController::class)->middleware('auth:admins')->group(function(){
     Route::get('admin/dashboard', 'index');
     Route::get('admin/dashboard/verify-property', 'verify_properties');
+    Route::post('admin/dashboard/verify-property/verify', 'verify_property')->name('verify-property');
+    Route::post('admin/dashboard/verify-property/reject', 'reject_property')->name('reject-property');
+    Route::post('admin/dashboard/accept-offer/accept', 'accept_offer')->name('accept-offer');
+    Route::post('admin/dashboard/accept-offer/reject', 'reject_offer')->name('reject-offer');
     Route::get('admin/dashboard/agents', 'agents_list');
     Route::get('admin/dashboard/rent-offers', 'offers_list');
 });
@@ -69,7 +77,7 @@ Route::controller(PropertyController::class)->middleware('auth:agents')->group(f
     Route::get('/{username}/properties/new', 'create');
     Route::post('/{username}/properties/new','store')->name('store');
     
-    Route::get('/{username}/properties/edit/{id}', 'edit');
+    Route::get('/{username}/properties/edit/{id}', 'edit')->withoutMiddleware('auth:agents')->middleware(['auth:admins', 'auth:agents']);
     Route::patch('/{username}/properties/edit/{id}', 'update')->name('update');
     
     Route::get('/{username}/properties/delete/{id}', 'delete');
@@ -94,5 +102,14 @@ Route::controller(AdminSessionsController::class)->group(function (){
 
 Route::controller(ProfileController::class)->group(function (){
     Route::get('/{username}', 'index')->where('username', '[A-Za-z0-9_\-.]+');
+});
+
+Route::controller(AdminProfileController::class)->group(function (){
+    Route::get('admin/{username}', 'index')->where('username', '[A-Za-z0-9_\-.]+');
+
+});
+
+Route::controller(AgentProfileController::class)->group(function (){
+    Route::get('agent/{username}', 'index')->where('username', '[A-Za-z0-9_\-.]+');
 
 });

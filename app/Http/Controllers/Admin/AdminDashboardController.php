@@ -45,12 +45,35 @@ class AdminDashboardController extends Controller
         return view('admin.dashboard.verify_property', compact('properties'));
     }
 
+    public function verify_property(Request $request)
+    {
+        Property::where('id', intval($request['id']))->update(['is_verified' => true]);
+    }
+
+    public function reject_property(Request $request)
+    {
+        Property::where('id', intval($request['id']))->delete();
+    }
+
+    public function accept_offer(Request $request)
+    {
+        $offer=Offer::where('property_id', intval($request['id']))->first();
+                $offer->update([
+                    'is_pending' => false,
+                    'accepted_at_amount' => $offer['amount_offered']
+                ]);
+    }
+
+    public function reject_offer(Request $request)
+    {
+        Offer::where('property_id', intval($request['id']))->delete();
+    }
+
     public function offers_list()
     {
         $offers = Offer::where('is_pending', true)->get();
 
         $properties = Property::where('is_rented', false)->get();
-        // dd($properties);
     
         return view('admin.dashboard.offers_list', compact('offers', 'properties'));
     }

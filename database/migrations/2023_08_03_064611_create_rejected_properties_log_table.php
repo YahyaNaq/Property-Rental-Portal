@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePropertiesTable extends Migration
+class CreateRejectedPropertiesLogTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreatePropertiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('properties', function (Blueprint $table) {
+        Schema::create('rejected_properties_log', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->onDelete('cascade')->nullable();
             $table->foreignId('agent_id')->onDelete('cascade');
             $table->foreignId('category_id');
             $table->string('title', 100);
@@ -26,8 +25,6 @@ class CreatePropertiesTable extends Migration
             $table->unsignedBigInteger('monthly_rent');
             $table->string('bedrooms');
             $table->unsignedTinyInteger('bathrooms');
-            $table->boolean('is_rented')->default(false);
-            $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });
     }
@@ -39,6 +36,6 @@ class CreatePropertiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('properties');
+        Schema::dropIfExists('rejected_properties_log');
     }
 }

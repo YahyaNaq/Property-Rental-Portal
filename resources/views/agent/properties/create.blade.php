@@ -141,11 +141,6 @@
                                         <p class="mt-1 text-sm leading-6 text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                {{-- images --}}
-                                {{-- <div>
-                                    <input type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg">
-                                    <output></output>
-                                </div> --}}
                             </div>
                         </div>
                     </div>

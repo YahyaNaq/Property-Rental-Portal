@@ -40,6 +40,9 @@
                                         <div class="flex items-center">
                                         </div>
                                     </th>
+                                    <th scope="col" class="p-4">
+                                        Offer Status
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,10 +65,32 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <a 
-                                            href="/{{$offer->property->user->username}}/properties/{{$offer->property->id}}"
+                                            href="/{{$offer->property->agent->username}}/properties/{{$offer->property->id}}"
                                             class="font-medium text-green-600 hover:underline">
-                                                Show
+                                                Show Property
                                             </a>
+                                        </td>
+                                        <td class="px-4 py-4 pr-2">                                     
+                                            <button id="dropdownDefaultButton" data-id = "{{$offer->property->id}}" data-dropdown-toggle="dropdown" class="dropdown_{{$offer->property['id']}} w-24 justify-center flex gap-1 items-center px-2.5 py-1.5 border-yellow-500 border rounded-lg font-medium bg-yellow-100 text-gray-600 hover:text-black" type="button">Pending <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                            </svg></button>
+                                            <!-- Dropdown menu -->
+                                            <div id="dropdown" class="dropdown_{{$offer->property['id']}} z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-24">
+                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                                <li>
+                                                    <button id="{{$offer->property->id}}" class="w-full accept block px-3 py-1.5 hover:text-black hover:font-medium">
+                                                        Accept
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button id="{{$offer->property->id}}" class="w-full reject block px-3 py-1.5 hover:text-black hover:font-medium">
+                                                        Reject
+                                                    </button>
+                                                </li>
+                                                </ul>
+                                            </div>
+                                            <h5 class="hidden v-status px-4 font-semibold text-green-700" id="accept_{{$offer->property['id']}}">Accepted</h5>
+                                            <h5 class="hidden r-status px-4 font-semibold text-red-600" id="reject_{{$offer->property['id']}}">Rejected</h5>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -73,16 +98,16 @@
                         </table>
                     </div>
                 @elseif($properties->isNotEmpty())
-                    <div>
-                        <p class="text-lg">You currently don't have any properties.</p>
-                        <p class="text-lg mb-4">Add a property ad to receive offers.</p>                  
-                        <a href="/{{$properties[0]->agent->username}}/properties/new" target="_blank" class="inline-flex items-center font-medium w-[5.25rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800">Add Now</a>
-                    </div>
+                <div>
+                    <p class="text-lg">No pending offers for renting your properties.</p>
+                    <p class="text-lg mb-4">Improve your property ads to receive offers.</p>                 
+                    <a href="/{{$properties[0]->agent->username}}/properties" target="_blank" class="inline-flex items-center font-medium w-[5.1rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800">Your Ads</a>
+                </div>
                 @else
                     <div>
-                        <p class="text-lg">No pending offers for renting your properties.</p>
-                        <p class="text-lg mb-4">Improve your property ads to receive offers.</p>                 
-                        <a href="/{{$properties[0]->agent->username}}/properties" target="_blank" class="inline-flex items-center font-medium w-[5.1rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800">Your Ads</a>
+                        <p class="text-lg">Agency currently don't have any properties uploaded.</p>
+                        <p class="text-lg mb-4">Add a property ad to receive offers.</p>                  
+                        <a href="/{{$properties[0]->agent->username}}/properties/new" target="_blank" class="inline-flex items-center font-medium w-[5.25rem] px-3 py-2 text-center rounded-lg text-sm text-white bg-blue-700 hover:bg-blue-800">Add Now</a>
                     </div>
                 @endif
             </div>
@@ -92,3 +117,52 @@
         @endif
     </div>
 </x-admin.layout>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+    var id = null;
+    $('body').on('click','#dropdownDefaultButton', function() {
+         id = $(this).attr("data-id");
+    });
+
+    $('body').on('click','.accept', function(){
+           $.ajax({
+            url: '{{ route('accept-offer') }}',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            data: { id: id },
+
+            success: function(response) {
+                $('.dropdown'+ '_'+ id).addClass('hidden')
+                $('#accept' + '_'+ id).removeClass('hidden')
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
+
+    })
+    $('body').on('click','.reject', function(){
+           $.ajax({
+            url: '{{ route('reject-offer') }}',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            data: { id: id },
+
+            success: function(response) {
+                $('.dropdown'+ '_'+ id).addClass('hidden')
+                $('#reject' + '_'+ id).removeClass('hidden')
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
+    });
+})
+</script>

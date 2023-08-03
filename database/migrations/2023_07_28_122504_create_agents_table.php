@@ -21,6 +21,10 @@ class CreateAgentsTable extends Migration
             $table->unsignedSmallInteger('properties_rented');
             $table->unsignedSmallInteger('properties_uploaded');
             $table->string('email')->unique();
+            $table->string('phone_number', 19)->nullable()->unique();
+            $table->string('about')->nullable();
+            $table->string('city', 60)->nullable();
+            $table->string('country', 60)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->string('password');

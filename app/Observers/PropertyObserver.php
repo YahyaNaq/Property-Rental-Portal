@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Property;
+use App\Models\RejectedProperty;
 use App\Models\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -50,7 +51,7 @@ class PropertyObserver
      * @return void
      */
     public function creating(Property $property)
-    {
+    {  
         $agent=$property->agent;
         $agent->update(['properties_uploaded' => $agent->properties_uploaded+1]);
     }
@@ -72,6 +73,27 @@ class PropertyObserver
         }
     }
 
+   
+    public function deleting(Property $property)
+    {
+         //dd(1);
+
+        //if(url()->current()==route('reject-property')) {
+            // RejectedProperty::create([
+            //     'agent_id' => $property['agent_id'],
+            //     'category_id' => $property['category_id'],
+            //     'title' => $property['title'],
+            //     'description' => $property['description'],
+            //     'city' => $property['city'],
+            //     'location' => $property['location'],
+            //     'area' => $property['area'],
+            //     'monthly_rent' => $property['monthly_rent'],
+            //     'bedrooms' => $property['bedrooms'],
+            //     'bathrooms' => $property['bathrooms'],
+            // ]);  
+        //}
+    }
+
     /**
      * Handle the Property "deleted" event.
      *
@@ -80,7 +102,20 @@ class PropertyObserver
      */
     public function deleted(Property $property)
     {
-        //
+        // RejectedProperty::create([
+        //     'agent_id' => $property['agent_id'],
+        //     'category_id' => $property['category_id'],
+        //     'title' => $property['title'],
+        //     'description' => $property['description'],
+        //     'city' => $property['city'],
+        //     'location' => $property['location'],
+        //     'area' => $property['area'],
+        //     'monthly_rent' => $property['monthly_rent'],
+        //     'bedrooms' => $property['bedrooms'],
+        //     'bathrooms' => $property['bathrooms'],
+        // ]); 
+
+            ddd(11);
     }
 
     /**
