@@ -8,7 +8,6 @@ $defaultStyles = "text-gray-300 hover:bg-gray-700 hover:text-white hover:font-me
 
 <!-- component -->
 <aside id="menu" class="fixed right-0 z-10 hidden flex float-right shadow-xl">
-    <x-notif username="{{ $username }}" />
     <div class="text-gray-300 h-screen py-6 flex flex-col items-center overflow-y-auto bg-gray-800 sm:w-64 w-60">
         <a href="javascript:void(0);" onclick="toggleMenu()" class="ml-auto mr-6">
             <img src="{{asset("assets/icons/close.svg")}}" alt="" class="invert w-2.5 mb-3 hover:opacity-80">
@@ -20,12 +19,6 @@ $defaultStyles = "text-gray-300 hover:bg-gray-700 hover:text-white hover:font-me
         </div>
 
         <div class="w-full px-2 text-">
-            <a href="javascript:void(0);" onclick="showNotifications()" class="text-gray-300 hover:bg-gray-700 hover:text-white hover:font-medium flex items-center gap-2 p-1.5 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                </svg>
-                <h5>Notifications</h5>
-            </a>
             <a href="/{{ $username }}" class="{{ $curUrl==$baseUrl . "/$username" ? $activeStyles : $defaultStyles; }} flex items-center gap-2 my-1 p-1.5 focus:outline-nones transition-colors duration-200 rounded-lg">
                 <img src="{{asset("assets/icons/profile.svg")}}" alt="" class="invert h-5 px-0.5 opacity-80">
                 <h5>My Profile</h5>

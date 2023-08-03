@@ -29,12 +29,6 @@ $defaultStyles = "text-gray-300 hover:bg-gray-700 hover:text-white hover:font-me
                 <img src="{{asset("assets/icons/profile.svg")}}" alt="" class="invert h-5 px-0.5 opacity-80">
                 <h5>My Profile</h5>
             </a>
-            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white hover:font-medium flex items-center gap-2 p-1.5 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                </svg>
-                <h5>Notifications</h5>
-            </a>
             <hr class="my-2 border-1.5 border-gray-400">
             <form action="{{route('agent.logout')}}" method="POST" class="pl-3 text-gray-300 hover:bg-gray-700 hover:text-white hover:font-medium p-1.5 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100">
                 @csrf
