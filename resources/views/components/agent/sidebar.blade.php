@@ -25,7 +25,7 @@ $defaultStyles = "text-gray-300 hover:bg-gray-700 hover:text-white hover:font-me
                 </svg>
                 <h5>My Properties</h5>
             </a>
-            <a href="agent/{{ $user->username }}" class="{{ $curUrl==$baseUrl . "/$user->username" ? $activeStyles : $defaultStyles; }} flex items-center gap-2 my-1 p-1.5 focus:outline-nones transition-colors duration-200 rounded-lg">
+            <a href="/agent/{{ $user->username }}" class="{{ $curUrl==$baseUrl . "/$user->username" ? $activeStyles : $defaultStyles; }} flex items-center gap-2 my-1 p-1.5 focus:outline-nones transition-colors duration-200 rounded-lg">
                 <img src="{{asset("assets/icons/profile.svg")}}" alt="" class="invert h-5 px-0.5 opacity-80">
                 <h5>My Profile</h5>
             </a>

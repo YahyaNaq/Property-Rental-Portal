@@ -26,7 +26,7 @@
                                 <img src="{{asset("assets/icons/calendar.svg")}}" class="w-3 opacity-60" alt="">
                                 <h5 class="text-xs text-gray-600">Since {{ $user->created_at->diffForHumans() }}</h5>
                             </div>
-                            <a href="{{$user->username}}/properties" class="flex items-center gap-1 mt-3">
+                            <a href="/{{$user->username}}/properties" class="flex items-center gap-1 mt-3">
                                 <h5 class="text-blue-700 font-medium">Available Properties</h5>
                                 <svg width="14" height="14" viewBox="0 0 16 16" size="14" color="#1D4ED8">
                                     <path fill="none" stroke="#1D4ED8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" d="m5.183 12.336 7.672-7.672m-7.672 0h7.672v7.672"></path>

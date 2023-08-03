@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AdminSessionsController;
 use App\Http\Controllers\Agent\AgentDashboardController;
 use App\Http\Controllers\Agent\AgentProfileController;
+use App\Http\Controllers\Agent\AgentRegisterController;
 use App\Http\Controllers\Agent\AgentSessionsController;
 use App\Http\Controllers\Agent\PropertyController;
 use App\Http\Controllers\DashboardController;
@@ -35,6 +36,11 @@ Route::controller(HomeController::class)->group(function(){
 Route::controller(RegisterController::class)->middleware('guest')->group(function (){
     Route::get('/register', 'create');
     Route::post('/register', 'store');
+});
+
+Route::controller(AgentRegisterController::class)->middleware('auth:admins')->group(function (){
+    Route::get('/agent/register', 'create');
+    Route::post('/agent/register', 'store')->name('agent.register');
 });
 
 

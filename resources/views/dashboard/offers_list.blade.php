@@ -5,7 +5,7 @@
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             @if(Auth::user()->property)
-                <div>
+                <div class="text-lg font-semibold">
                     <p>You cannot make offers while renting a property.</p>
                     <p>No offers found</p>
                 </div>

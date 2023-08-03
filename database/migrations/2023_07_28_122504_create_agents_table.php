@@ -18,8 +18,8 @@ class CreateAgentsTable extends Migration
             $table->string('full_name');
             $table->string('username')->unique();
             $table->string('img_path')->nullable();
-            $table->unsignedSmallInteger('properties_rented');
-            $table->unsignedSmallInteger('properties_uploaded');
+            $table->unsignedSmallInteger('properties_rented')->default(0);
+            $table->unsignedSmallInteger('properties_uploaded')->default(0) ;
             $table->string('email')->unique();
             $table->string('phone_number', 19)->nullable()->unique();
             $table->string('about')->nullable();

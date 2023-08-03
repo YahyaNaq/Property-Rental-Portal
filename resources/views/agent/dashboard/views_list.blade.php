@@ -1,7 +1,7 @@
 <x-agent.layout title="Analytics">
     <div class="min-h-full">
         @include('agent/dashboard/_nav')
-        @include('dashboard/_header', ['heading' => 'Rent Offers for your properties'])
+        @include('dashboard/_header', ['heading' => 'Recent views on your properties'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                 @if($views->isNotEmpty())
@@ -41,7 +41,7 @@
                                             <a 
                                             href="/{{$view->property->agent->username}}/properties/{{$view->property->id}}"
                                             class="font-medium text-green-600 hover:underline">
-                                                Show
+                                                Show Property
                                             </a>
                                         </td>
                                     </tr>

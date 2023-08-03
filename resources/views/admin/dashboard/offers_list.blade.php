@@ -76,7 +76,7 @@
                                             </svg></button>
                                             <!-- Dropdown menu -->
                                             <div id="dropdown" class="dropdown_{{$offer->property['id']}} z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-24">
-                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
                                                 <li>
                                                     <button id="{{$offer->property->id}}" class="w-full accept block px-3 py-1.5 hover:text-black hover:font-medium">
                                                         Accept
