@@ -58,7 +58,7 @@
                                             <a 
                                             href="/{{$offer->property->agent->username}}/properties/{{$offer->property->id}}"
                                             class="font-medium text-green-600 hover:underline">
-                                                Show
+                                                Show Property
                                             </a>
                                         </td>
                                     </tr>

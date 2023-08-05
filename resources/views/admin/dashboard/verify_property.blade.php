@@ -5,6 +5,7 @@
         <main>
             {{-- {{ dd($properties) }} --}}
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            @if($properties->isNotEmpty())
                 <div class="flex gap-2 items-center">
                     <h5 class="my-4 text-2xl font-semibold">Properties with verification pending</h5>
                     <h5 class="text-lg">({{count($properties)}})</h5>
@@ -44,7 +45,7 @@
                                         {{ $property->category->name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $property['location'] }}, {{ $property['city'] }}
+                                        {{ $property->location->name }}, {{ $property->location->city->name }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $property->agent->full_name }}
@@ -90,6 +91,11 @@
                         </tbody>
                     </table>
                 </div>
+            @else
+                <div>
+                    <h5 class="text-lg font-semibold">No properties to verify.</h5>
+                </div>
+            @endif
             </div>
         </main>
         @if(session()->has('success'))

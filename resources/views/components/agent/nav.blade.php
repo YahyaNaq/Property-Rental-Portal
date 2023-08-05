@@ -26,7 +26,10 @@
             <div class="ml-4 flex items-center md:ml-6">
                 @auth('agents')
                     <!-- Profile dropdown -->
-                    <div class="relative ml-3">
+                    <div class="flex items-center gap-x-4 relative ml-3">
+                        <h5 class="text-sm text-gray-200 font-semibold bg-gray-900 rounded-lg px-2.5 py-1.5">
+                            Agent
+                        </h5>
                         <div class="rounded-lg py-1.5 px-2.5 bg-gray-900">
                             <a href="javascript:void(0);" onclick="toggleMenu()" class="flex gap-2 max-w-xs items-center" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <img class="h-8 w-8 rounded-full border-gray-300 border-2 border-full" src="{{asset("assets/images/dp.jpg")}}" alt="">

@@ -89,10 +89,10 @@
                                         {{ $property->category->name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $property['location'] }}
+                                        {{ $property->location->name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $property['city'] }}
+                                        {{ $property->location->city->name }}
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         {{ $property->views->count() }}

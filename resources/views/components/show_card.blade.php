@@ -64,7 +64,7 @@
                         <div class="flex items-center gap-2">
                             <img src="{{asset("assets/icons/location.svg")}}" class="h-4" alt="">
                             <h5 class="mr-2 text-gray-700">Location</h5>
-                            <h5 class="text-gray-800 font-medium">{{ $property['location'] }}, {{ $property['city'] }}</h5>
+                            <h5 class="text-gray-800 font-medium">{{ $property->location->name }}, {{ $property->location->city->name }}</h5>
                         </div>
                     </div>
                 </div>

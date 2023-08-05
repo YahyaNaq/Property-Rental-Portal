@@ -24,32 +24,9 @@
         </div>
         <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
-                @guest
-                <div class="flex gap-2">
-                    @if(Str::contains($curUrl, '/register'))
-                    <a href="/login" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Login</a>
-                    @elseif(Str::contains($curUrl, '/login'))
-                    <a href="/register" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Register</a>
-                    @else
-                    <a href="/login" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Login</a>
-                    <a href="/register" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Register</a>
-                    @endif
-                </div>
-                @else
-                    {{-- <form action="/logout" method="POST">
-                        @csrf
-                        <button class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800"
-                        >Log out</button>
-                    </form> --}}
-                    {{-- <button type="button" class="ml-3 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                        <span class="sr-only">View notifications</span>
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                        </svg>
-                    </button> --}}
-                    {{-- <a href="/{{ $username }}/properties" class="{{ $curUrl==$baseUrl . "/$username/properties" ? $activeStyles : $defaultStyles; }} rounded-md mx-3 py-1.5 px-2.5 text-sm font-medium">My Properties</a> --}}
+                @auth
                     <!-- Profile dropdown -->
-                    <div class="relative ml-3">
+                    <div class="flex items-center gap-x-4 relative ml-3">
                         <div class="rounded-lg py-1.5 px-2.5 bg-gray-900">
                             <a href="javascript:void(0);" onclick="toggleMenu()" class="flex gap-2 max-w-xs items-center" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <img class="h-8 w-8 rounded-full border-gray-300 border-2 border-full" src="{{asset("assets/images/dp.jpg")}}" alt="">
@@ -57,7 +34,18 @@
                             </a>
                         </div>
                     </div>
-                @endguest
+                @else
+                    <div class="flex gap-2">
+                        @if(Str::contains($curUrl, '/register'))
+                            <a href="/login" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Login</a>
+                        @elseif(Str::contains($curUrl, '/login'))
+                            <a href="/register" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Register</a>
+                        @else
+                            <a href="/login" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Login</a>
+                            <a href="/register" class="text-white flex max-w-xs items-center rounded-md px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-indigo-800">Register</a>
+                        @endif
+                    </div>
+                @endauth
             </div>
         </div>
         <div class="-mr-2 flex md:hidden">
