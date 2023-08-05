@@ -114,8 +114,6 @@ class PropertyObserver
         //     'bedrooms' => $property['bedrooms'],
         //     'bathrooms' => $property['bathrooms'],
         // ]); 
-
-            ddd(11);
     }
 
     /**

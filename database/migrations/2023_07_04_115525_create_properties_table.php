@@ -18,10 +18,9 @@ class CreatePropertiesTable extends Migration
             $table->foreignId('user_id')->onDelete('cascade')->nullable();
             $table->foreignId('agent_id')->onDelete('cascade');
             $table->foreignId('category_id');
+            $table->foreignId('location_id');
             $table->string('title', 100);
             $table->string('description', 1500);
-            $table->string('city');
-            $table->string('location', 50);
             $table->unsignedSmallInteger('area');
             $table->unsignedBigInteger('monthly_rent');
             $table->string('bedrooms');

@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('img_path')->nullable();
             $table->foreignId('property_id')->nullable();
-            $table->unsignedSmallInteger('properties_took_for_rent');
+            $table->unsignedSmallInteger('properties_took_for_rent')->default(0);
             $table->string('email')->unique();
             $table->string('phone_number', 19)->nullable()->unique();
             $table->string('about')->nullable();

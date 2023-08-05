@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Agent;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\Location;
 use App\Models\Property;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -16,12 +19,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(20)->create();
         $agents = Agent::factory(3)->create();
-
-        $this->call(CategorySeeder::class);
+        User::factory(20)->create();
         
-        $this->call(AdminSeeder::class);
+        $cities = City::factory(2)->create([
+            'country_id' => Country::factory()->create()->id
+        ]);
+        
+        foreach($cities as $city) {
+            Location::factory(10)->create([
+                'city_id' => $city->id
+            ]);
+        }
+
+        $this->call([
+            CategorySeeder::class,
+            AdminSeeder::class,
+        ]);
 
         foreach($agents as $agent) {
             Property::factory(5)->create([

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Property extends Model
 {
     use HasFactory;
+    // use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $guarded = ['category'];
 
@@ -23,14 +24,25 @@ class Property extends Model
         return $this->belongsTo(User::class);
     }
 
+    // public function city()
+    // {
+    //     return $this->belongsTo(City::class);
+    // }
+
+    
     public function agent()
     {
         return $this->belongsTo(Agent::class);
     }
-
+    
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
     }
 
     public function views()

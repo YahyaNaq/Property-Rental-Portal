@@ -56,11 +56,9 @@
                                     <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
                                     <div class="mt-2">
                                       <select id="city" name="city" value="{{ old('city') }}" autocomplete="city-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                        <option>Karachi</option>
-                                        <option>Lahore</option>
-                                        <option>Islamabad</option>
-                                        <option>Peshawar</option>
-                                        <option>Quetta</option>    
+                                        @foreach($cities as $city)
+                                            <option>{{ $city }}</option> 
+                                        @endforeach 
                                       </select>
                                     </div>
 
@@ -72,12 +70,10 @@
                                 <div class="sm:col-span-3">
                                     <label for="location" class="block text-sm font-medium leading-6 text-gray-900">Location</label>
                                     <div class="mt-2">
-                                      <select id="location" name="location" value="{{ old('location') }}" autocomplete="location-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                        <option>North Nazimabad</option>
-                                        <option>Gulshan-e-Iqbal</option>
-                                        <option>Gulshan-e-Maymar</option>
-                                        <option>Fb-area</option>
-                                        <option>Gulistan-e-Johar</option>    
+                                      <select id="location" name="location" value="{{ old('location') }}" autocomplete="location-name" class="block w-full h-10 overflow-y-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                        @foreach($locations as $location)
+                                            <option>{{ $location }}</option>
+                                        @endforeach    
                                       </select>
                                     </div>
 

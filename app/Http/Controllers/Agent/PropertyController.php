@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\City;
+use App\Models\Location;
 use App\Models\Offer;
 use App\Models\Property;
 use App\Models\User;
@@ -64,37 +66,11 @@ class PropertyController extends Controller
     {
         return view('agent.properties.create', [
             'username' => $username,
-            'categories' => Category::pluck('name')
+            'categories' => Category::pluck('name'),
+            'cities' => City::pluck('name'),
+            'locations' => Location::pluck('name')
         ]);
     }
-
-    public function edit($username, $id)
-    {
-        $property = Property::findOrFail($id);
-
-        if (Auth::guard('agents')->check()) {
-            if (!Gate::allows('edit-property', $property)) {
-                abort(403);
-            }
-        }
-
-        return view('agent.properties.edit')
-            ->with('property', $property)
-            ->with('username', $username)
-            ->with('categories', Category::pluck('name'));
-    }
-
-    public function delete($username, $id)
-    {
-        $property = Property::findOrFail($id);
-
-        if (!Gate::allows('delete-property', $property)) {
-            abort(403);
-        }
-
-        return view('agent.properties.delete', compact('property', 'username'));
-    }
-
 
     public function store(Request $request, $username)
     {
@@ -114,35 +90,20 @@ class PropertyController extends Controller
         return redirect("/$username/properties");
     }
 
-    public function createOffer($username, $id)
+    public function edit($username, $id)
     {
         $property = Property::findOrFail($id);
 
-        return view('agent.properties.make-offer', compact('property', 'username'));
-    }
+        // if (Auth::guard('agents')->check()) {
+        //     if (!Gate::allows('edit-property', $property)) {
+        //         abort(403);
+        //     }
+        // }
 
-    public function storeOffer(Request $request, $username, $id)
-    {
-        $data = $request->all();
-        $data['user_id'] = Auth::user()->id;
-        $data['property_id'] = $id;
-
-        Validator::make($data, [
-            'offer_amount' => ['integer', 'required'],
-            'message' => ['required', 'max:50', 'max:300']
-        ])->validate();
-
-        $data['amount_offered'] = $data['offer_amount'];
-        unset($data['offer_amount']);
-
-        Offer::updateOrCreate(
-            ['user_id' => $data['user_id'], 'property_id' => $data['property_id']],
-            ['message' => $data['message'], 'amount_offered' => $data['amount_offered']]
-        );
-
-        session()->flash('success', 'Offer sent');
-
-        return redirect("/dashboard/offers-made");
+        return view('agent.properties.edit')
+                ->with('property', $property)
+                ->with('username', $username)
+                ->with('categories', Category::pluck('name'));
     }
 
     public function update(Request $request, $username, $id)
@@ -168,6 +129,17 @@ class PropertyController extends Controller
         session()->flash('success', 'Rental property updated');
 
         return redirect("/$username/properties");
+    }
+
+    public function delete($username, $id)
+    {
+        $property = Property::findOrFail($id);
+
+        if (!Gate::allows('delete-property', $property)) {
+            abort(403);
+        }
+
+        return view('agent.properties.delete', compact('property', 'username'));
     }
 
     public function destroy(Request $request, $username, $id)
@@ -198,5 +170,37 @@ class PropertyController extends Controller
         session()->flash('success', 'Rental property deleted.');
 
         return redirect("/$username/properties");
+    }
+
+
+    public function createOffer($username, $id)
+    {
+        $property = Property::findOrFail($id);
+
+        return view('agent.properties.make-offer', compact('property', 'username'));
+    }
+
+    public function storeOffer(Request $request, $username, $id)
+    {
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
+        $data['property_id'] = $id;
+
+        Validator::make($data, [
+            'offer_amount' => ['integer', 'required'],
+            'message' => ['required', 'max:50', 'max:300']
+        ])->validate();
+
+        $data['amount_offered'] = $data['offer_amount'];
+        unset($data['offer_amount']);
+
+        Offer::updateOrCreate(
+            ['user_id' => $data['user_id'], 'property_id' => $data['property_id']],
+            ['message' => $data['message'], 'amount_offered' => $data['amount_offered']]
+        );
+
+        session()->flash('success', 'Offer sent');
+
+        return redirect("/dashboard/offers-made");
     }
 }

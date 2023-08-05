@@ -83,7 +83,7 @@ Route::controller(PropertyController::class)->middleware('auth:agents')->group(f
     Route::get('/{username}/properties/new', 'create');
     Route::post('/{username}/properties/new','store')->name('store');
     
-    Route::get('/{username}/properties/edit/{id}', 'edit')->withoutMiddleware('auth:agents')->middleware(['auth:admins', 'auth:agents']);
+    Route::get('/{username}/properties/edit/{id}', 'edit')->withoutMiddleware('auth:agents')->middleware('auth.adminagent');
     Route::patch('/{username}/properties/edit/{id}', 'update')->name('update');
     
     Route::get('/{username}/properties/delete/{id}', 'delete');

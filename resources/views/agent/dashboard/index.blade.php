@@ -39,10 +39,14 @@
                 <h5 class="my-4 text-2xl font-semibold">Properties currently uploaded</h5>
                 @if($properties->isNotEmpty())         
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <div class="pl-4 py-3 bg-indigo-100">
-                        <p class="mb-0.5 text-gray-900 font-semibold">
+                    <div class="flex justify-between items-center pl-4 py-3 bg-indigo-100">
+                        <p class="text-gray-900 font-semibold">
                             Note: Following list also includes the properties that are not verified.
                         </p>
+                        <a href="/{{Auth::guard('agents')->user()->username}}/properties/new"
+                        class="text-sm px-2.5 py-1.5 font-semibold bg-indigo-700 rounded-lg text-white hover:bg-indigo-900 mr-4">
+                            Add new
+                        </a>
                     </div>
                     <table class="w-full text-sm text-left text-gray-500">
                         <thead class="text-xs text-gray-100 uppercase bg-gray-700">

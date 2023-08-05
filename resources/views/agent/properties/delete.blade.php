@@ -7,7 +7,7 @@
                 <a href="/{{ $username }}/properties">
                     <img src="{{asset("assets/icons/close.svg")}}" alt="" class="w-2.5 ml-auto">
                 </a>
-                <h5 class="text-3xl mt-3 font-bold capitalize">
+                <h5 class="text-3xl mt-3 font-bold">
                     {{ $property['title'] }}
                 </h5>
                 <hr class="w-full border-gray-700 border-1.5 my-6">
