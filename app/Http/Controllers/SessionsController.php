@@ -22,9 +22,12 @@ class SessionsController extends Controller
             'email' => ['required', 'email', Rule::exists('users','email')],
             'password' => ['required']
         ]);
-        if (Auth::attempt($data)) {
+
+        $remember = $request->input('remember-me') ?? false; 
+
+        if (Auth::attempt($data, $remember)) {
             session()->flash('success', 'Logged in.');
-            // return redirect('/');
+            return redirect('/');
         }
 
         throw ValidationException::withMessages([
