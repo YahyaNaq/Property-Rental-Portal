@@ -6,6 +6,7 @@ use App\Models\Property;
 use App\Models\RejectedProperty;
 use App\Models\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
 class PropertyObserver
@@ -19,7 +20,7 @@ class PropertyObserver
     public function retrieved(Property $property)
     {
         $data=['username' => $property->agent->username, 'id' => $property->id];
-
+        
         if 
         (Auth::user()
         && url()->current()==route('properties.show', $data)
@@ -76,22 +77,21 @@ class PropertyObserver
    
     public function deleting(Property $property)
     {
-         //dd(1);
+        // dd(1);
+        Log::info('Property being deleted:', $property->toArray());
 
         // if(url()->current()==route('reject-property')) {
             RejectedProperty::create([
                 'agent_id' => $property['agent_id'],
                 'category_id' => $property['category_id'],
+                'location_id' => $property['location_id'],
                 'title' => $property['title'],
                 'description' => $property['description'],
-                'city' => $property['city'],
-                'location' => $property['location'],
                 'area' => $property['area'],
                 'monthly_rent' => $property['monthly_rent'],
                 'bedrooms' => $property['bedrooms'],
                 'bathrooms' => $property['bathrooms'],
             ]);  
-        // }
     }
 
     /**
@@ -102,18 +102,18 @@ class PropertyObserver
      */
     public function deleted(Property $property)
     {
-        // RejectedProperty::create([
-        //     'agent_id' => $property['agent_id'],
-        //     'category_id' => $property['category_id'],
-        //     'title' => $property['title'],
-        //     'description' => $property['description'],
-        //     'city' => $property['city'],
-        //     'location' => $property['location'],
-        //     'area' => $property['area'],
-        //     'monthly_rent' => $property['monthly_rent'],
-        //     'bedrooms' => $property['bedrooms'],
-        //     'bathrooms' => $property['bathrooms'],
-        // ]); 
+
+        RejectedProperty::create([
+            'agent_id' => $property['agent_id'],
+            'category_id' => $property['category_id'],
+            'location_id' => $property['location_id'],
+            'title' => $property['title'],
+            'description' => $property['description'],
+            'area' => $property['area'],
+            'monthly_rent' => $property['monthly_rent'],
+            'bedrooms' => $property['bedrooms'],
+            'bathrooms' => $property['bathrooms'],
+        ]); 
     }
 
     /**

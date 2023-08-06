@@ -23,7 +23,7 @@
                                 <h5 class="text-sm w-max font-medium px-2 py-1 mb-2 tracking-tight bg-gray-200 rounded-lg text-gray-700">{{ $property->category->name }}</h5>
                                     <div class="flex items-center gap-1 my-2">
                                         <img src="{{asset("assets/icons/location.svg")}}" class="h-4" alt="">
-                                        <h5 class="text-sm w-max font-medium capitalize tracking-tight text-gray-800">{{ $property->location }}, {{ $property->city }}</h5>
+                                        <h5 class="text-sm w-max font-medium capitalize tracking-tight text-gray-800">{{ $property->location->name }}, {{ $property->location->city->name }}</h5>
                                     </div>
                                 <span class="flex items-end gap-x-1 text-gray-900">
                                     <h1 class="text-md font-semibold">PKR</h1>

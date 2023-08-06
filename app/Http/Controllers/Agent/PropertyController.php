@@ -23,7 +23,6 @@ class PropertyController extends Controller
             'title' => ['required', 'min:25', 'max:100'],
             'description' => ['required', 'min:150', 'max:1500'],
             'category' => ['required', 'min:4', 'max:25'],
-            'city' => ['required', 'min:3', 'max:25'],
             'location' => ['required', 'min:4', 'max:25'],
             'area' => ['required'],
             'monthly_rent' => ['required', 'integer', 'between:10000,1000000000'],
@@ -67,8 +66,7 @@ class PropertyController extends Controller
         return view('agent.properties.create', [
             'username' => $username,
             'categories' => Category::pluck('name'),
-            'cities' => City::pluck('name'),
-            'locations' => Location::pluck('name')
+            'locations' => Location::all(['city_id','name'])
         ]);
     }
 
@@ -76,15 +74,16 @@ class PropertyController extends Controller
     {
         $rules = $this->getValidationRules();
         $rules['title'][] = Rule::unique('properties', 'title');
-
+        
         $data = $request->all();
         $data['agent_id'] = Auth::guard('agents')->id();
-        $data['category_id'] = Category::where('name', $data['category'])->first()->id;
-
+        $data['category_id'] = Category::where('name', $data['category'])->first(['id'])->id;
+        $data['location_id'] = Location::where('name', $data['location'])->first(['id'])->id;
+        
         Validator::make($data, $rules, [], $this->getAttributes())->validate();
-
+        
         Property::create($data);
-
+        
         session()->flash('success', 'New rental property added');
 
         return redirect("/$username/properties");
@@ -93,30 +92,32 @@ class PropertyController extends Controller
     public function edit($username, $id)
     {
         $property = Property::findOrFail($id);
-
+        
         // if (Auth::guard('agents')->check()) {
-        //     if (!Gate::allows('edit-property', $property)) {
-        //         abort(403);
-        //     }
-        // }
-
+            //     if (!Gate::allows('edit-property', $property)) {
+                //         abort(403);
+                //     }
+                // }
+                
         return view('agent.properties.edit')
-                ->with('property', $property)
-                ->with('username', $username)
-                ->with('categories', Category::pluck('name'));
+        ->with('property', $property)
+        ->with('username', $username)
+        ->with('categories', Category::pluck('name'))
+        ->with('locations', Location::all(['city_id','name']));
     }
-
+            
     public function update(Request $request, $username, $id)
     {
         $property = Property::findOrFail($id);
-
+        
         if (!Gate::allows('edit-property', $property)) {
             abort(403);
         }
 
         $data = $request->all();
-        $data['category_id'] = Category::where('name', $data['category'])->first()->id;
-
+        $data['category_id'] = Category::where('name', $data['category'])->first(['id'])->id;
+        $data['location_id'] = Location::where('name', $data['location'])->first(['id'])->id;
+        
         $validator = Validator::make($data, $this->getValidationRules(), [], $this->getAttributes());
         if ($validator->fails()) {
             return redirect("/$username/properties/edit/$id")
@@ -171,7 +172,6 @@ class PropertyController extends Controller
 
         return redirect("/$username/properties");
     }
-
 
     public function createOffer($username, $id)
     {

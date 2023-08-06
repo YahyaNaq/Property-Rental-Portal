@@ -17,10 +17,9 @@ class CreateRejectedPropertiesLogTable extends Migration
             $table->id();
             $table->foreignId('agent_id')->onDelete('cascade');
             $table->foreignId('category_id');
-            $table->string('title', 100);
-            $table->string('description', 1500);
-            $table->string('city');
-            $table->string('location', 50);
+            $table->foreignId('location_id');
+            $table->string('title');
+            $table->string('description', 2000);
             $table->unsignedSmallInteger('area');
             $table->unsignedBigInteger('monthly_rent');
             $table->string('bedrooms');

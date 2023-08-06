@@ -11,6 +11,7 @@
                             <h2 class="text-base font-semibold leading-7 text-gray-900">A quick tip</h2>
                             <p class="mt-1 text-sm leading-6 text-gray-600">Add HD images and a good description to stand out.</p>
                             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                {{-- Title --}}
                                 <div class="sm:col-span-4">
                                     <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Title</label>
                                     <div class="mt-2">
@@ -23,6 +24,8 @@
                                         <p class="mt-1 text-sm leading-6 text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
+
+                                {{-- Description --}}
                                 <div class="col-span-full">
                                     <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                     <div class="mt-2">
@@ -35,7 +38,8 @@
                                         <p class="mt-1 text-sm leading-6 text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                {{-- category --}}
+
+                                {{-- Category --}}
                                 <div class="sm:col-span-3">
                                     <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Category</label>
                                     <div class="mt-2">
@@ -52,33 +56,17 @@
                                         <p class="mt-1 text-sm leading-6 text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                {{-- city --}}
-                                <div class="sm:col-span-3">
-                                    <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
-                                    <div class="mt-2">
-                                      <select id="city" name="city" value="{{ old('city') ?? $property['city'] }}" autocomplete="city-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                        <option {{ old('city') ?? $property['city']=="Karachi" ? 'selected' : '' }}>Karachi</option>
-                                        <option {{ old('city') ?? $property['city']=="Lahore" ? 'selected' : '' }}>Lahore</option>
-                                        <option {{ old('city') ?? $property['city']=="Islamabad" ? 'selected' : '' }}>Islamabad</option>
-                                        <option {{ old('city') ?? $property['city']=="Peshawar" ? 'selected' : '' }}>Peshawar</option>
-                                        <option {{ old('city') ?? $property['city']=="Quetta" ? 'selected' : '' }}>Quetta</option>    
-                                      </select>
-                                    </div>
 
-                                    @error('city')
-                                        <p class="mt-1 text-sm leading-6 text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                {{-- location --}}
+                                {{-- Location --}}
                                 <div class="sm:col-span-3">
                                     <label for="location" class="block text-sm font-medium leading-6 text-gray-900">Location</label>
                                     <div class="mt-2">
                                       <select id="location" name="location" value="{{ old('location') ?? $property['location'] }}" autocomplete="location-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                        <option {{ old('location') ?? $property['location']=="North Nazimabad" ? 'selected' : '' }}>North Nazimabad</option>
-                                        <option {{ old('location') ?? $property['location']=="Gulshan-e-Iqbal" ? 'selected' : '' }}>Gulshan-e-Iqbal</option>
-                                        <option {{ old('location') ?? $property['location']=="Gulshan-e-Maymar" ? 'selected' : '' }}>Gulshan-e-Maymar</option>
-                                        <option {{ old('location') ?? $property['location']=="Fb-area" ? 'selected' : '' }}>Fb-area</option>
-                                        <option {{ old('location') ?? $property['location']=="Gulistan-e-Johar" ? 'selected' : '' }}>Gulistan-e-Johar</option>    
+                                        @foreach($locations as $location)
+                                        <option>
+                                            {{ $location->name }}
+                                        </option>
+                                        @endforeach    
                                       </select>
                                     </div>
 
@@ -86,7 +74,8 @@
                                         <p class="mt-1 text-sm leading-6 text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                {{-- area --}}
+
+                                {{-- Area --}}
                                 <div class="sm:col-span-3">
                                     <label for="area" class="block text-sm font-medium leading-6 text-gray-900">Area (sq yards)</label>
                                     <div class="mt-2">
@@ -99,7 +88,8 @@
                                         <p class="mt-1 text-sm leading-6 text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                {{-- monthly rent --}}
+
+                                {{-- Monthly rent --}}
                                 <div class="sm:col-span-3">
                                     <label for="monthly_rent" class="block text-sm font-medium leading-6 text-gray-900">Monthly rent (Rs)</label>
                                     <div class="mt-2">
@@ -112,7 +102,8 @@
                                         <p class="mt-1 text-sm leading-6 text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                {{-- bedrooms --}}
+
+                                {{-- Bedrooms --}}
                                 <div class="sm:col-span-3">
                                     <label for="bedrooms" class="block text-sm font-medium leading-6 text-gray-900">Bedrooms</label>
                                     <div class="mt-2">
@@ -129,7 +120,8 @@
                                         <p class="mt-1 text-sm leading-6 text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                {{-- bathrooms --}}
+
+                                {{-- Bathrooms --}}
                                 <div class="sm:col-span-3">
                                     <label for="bathrooms" class="block text-sm font-medium leading-6 text-gray-900">Bathrooms</label>
                                     <div class="mt-2">

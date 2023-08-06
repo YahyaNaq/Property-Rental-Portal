@@ -17,14 +17,14 @@ class AgentSessionsController extends Controller
 
     public function store(Request $request)
     {
-        // Query: Why isn't the code halting here in the case of failed validation as it does in a failed
-        // created of new user or property.
         $data=$request->validate([
             'email' => ['required', 'email', Rule::exists('agents','email')],
             'password' => ['required']
         ]);
 
-        if (Auth::guard('agents')->attempt($data)) {
+        $remember = boolval($request->input('remember-me')) ?? false; 
+        
+        if (Auth::guard('agents')->attempt($data, $remember)) {
             session()->flash('success', 'Logged in');
             return redirect('/agent/dashboard');
         }

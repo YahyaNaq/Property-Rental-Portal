@@ -10,6 +10,8 @@ class View extends Model
     use HasFactory;
 
     protected $table='views_log';
+    
+    protected $guarded=[];
 
     public function property()
     {
@@ -23,5 +25,4 @@ class View extends Model
 
     
 
-    protected $guarded=[];
 }

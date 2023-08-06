@@ -10,4 +10,6 @@ class RejectedProperty extends Model
     use HasFactory;
 
     protected $table='rejected_properties_log';
+
+    protected $guarded = [];
 }

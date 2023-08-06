@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
+use App\Models\RejectedProperty;
+use App\Observers\PropertyObserver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {

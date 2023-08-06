@@ -28,13 +28,14 @@ class AdminSessionsController extends Controller
 
     public function store(Request $request)
     {
-        // Query: Why isn't the code halting here in the case of failed validation as it does in a failed
-        // created of new user or property.
         $data=$request->validate([
             'email' => ['required', 'email', Rule::exists('admins','email')],
             'password' => ['required']
-        ]);     
-        if (Auth::guard('admins')->attempt($data)) {  
+        ]);
+
+        $remember = boolval($request->input('remember-me')) ?? false; 
+
+        if (Auth::guard('admins')->attempt($data, $remember)) {  
             session()->flash('success', 'Logged in.');
             return redirect('/admin/dashboard');
         }
