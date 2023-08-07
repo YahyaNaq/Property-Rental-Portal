@@ -70,6 +70,7 @@ Route::middleware('auth:admins')->group(function(){
     Route::post('admin/dashboard/accept-offer/reject', [AdminDashboardController::class, 'reject_offer'])->name('reject-offer');
     Route::get('admin/dashboard/agents', [AdminDashboardController::class, 'agents_list']);
     Route::get('admin/dashboard/rent-offers', [AdminDashboardController::class, 'offers_list']);
+    Route::post('admin/dashboard/confirm-password-edit', [AdminDashboardController::class, 'confirm_password_edit'])->name('confirm-password-edit');
 });
 
 Route::controller(AgentDashboardController::class)->middleware('auth:agents')->group(function(){
@@ -81,7 +82,7 @@ Route::controller(AgentDashboardController::class)->middleware('auth:agents')->g
 Route::middleware('auth.adminagent')->group(function(){
     Route::get('/{username}/properties', [PropertyController::class, 'index']);
 
-    Route::get('/{username}/properties/edit/{id}', [PropertyController::class, 'edit']);
+    Route::get('/{username}/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
     Route::patch('/{username}/properties/edit/{id}', [PropertyController::class, 'update'])->name('update');
     
     Route::get('/{username}/properties/delete/{id}', [PropertyController::class, 'delete']);

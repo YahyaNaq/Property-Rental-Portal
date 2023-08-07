@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Agent\PropertyController;
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
 use App\Models\Category;
@@ -9,6 +10,8 @@ use App\Models\Offer;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AdminDashboardController extends Controller
 {
@@ -76,5 +79,19 @@ class AdminDashboardController extends Controller
         $properties = Property::where('is_rented', false)->get();
     
         return view('admin.dashboard.offers_list', compact('offers', 'properties'));
+    }
+
+    public function confirm_password_edit(Request $request)
+    {
+        $data=$request->all();
+        $pwd_original= Auth::guard('admins')->user()->password;
+
+        if (!Hash::check($data['password'], $pwd_original)) {
+            return response()->json(['error' => 'Invalid password'], 422);
+        }
+
+        $url = route('properties.edit', [ 'username' => $data['username'], 'id' => $data['id']]);
+
+        return response()->json(['url' => $url], 200);
     }
 }

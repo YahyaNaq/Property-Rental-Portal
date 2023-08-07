@@ -139,8 +139,10 @@ class PropertyController extends Controller
     {
         $property = Property::findOrFail($id);
 
-        if (!Gate::allows('delete-property', $property)) {
-            abort(403);
+        if (Auth::guard('agents')->check()) {
+            if ($username!=$property->agent->username) {
+                abort(403);
+            }
         }
 
         return view('agent.properties.delete', compact('property', 'username'));
@@ -150,7 +152,11 @@ class PropertyController extends Controller
     {
         $property = Property::findOrFail($id);
 
-        if (!Gate::allows('delete-property', $property)) abort(403);
+        if (Auth::guard('agents')->check()) {
+            if ($username!=$property->agent->username) {
+                abort(403);
+            }
+        }
 
         $data = $request->all();
         $data['original_title'] = $property['title'];

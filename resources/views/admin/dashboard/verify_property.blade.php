@@ -56,6 +56,7 @@
                                     </td>
                                     <td class="px-5 py-4">
                                         <a
+                                        id="editbtn" data-id="{{$property->id}}" data-username="{{$property->agent->username}}"
                                         data-modal-target="defaultModal" data-modal-toggle="defaultModal"
                                         {{-- href="/{{$property->agent->username}}/properties/edit/{{$property->id}}" --}}
                                         class="font-medium text-blue-600 hover:text-blue-800">
@@ -106,14 +107,14 @@
             <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <div class="relative w-full max-w-sm max-h-full">
                     <!-- Modal content -->
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div class="relative bg-gray-50 rounded-lg shadow">
                         <!-- Modal header -->
-                        <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        <div class="flex items-start justify-between p-4 border-b rounded-t">
+                            <h3 class="text-xl font-semibold text-gray-900">
                                 Verify Access
                             </h3>
-                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal">
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-6 h-6 ml-auto inline-flex justify-center items-center" data-modal-hide="defaultModal">
+                                <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                 </svg>
                                 <span class="sr-only">Close modal</span>
@@ -121,16 +122,18 @@
                         </div>
                         <!-- Modal body -->
                         <div class="p-4 space-y-3">
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            <p class="text-base leading-relaxed text-gray-500">
                                 Enter your password below to confirm access
                             </p>
-                            <input class="text-sm px-2 py-1 border-1 rounded-lg border-gray-300 bg-gray-50"
-                            type="password" name="password" id="password">
+                            <input class="text-sm px-2.5 py-1.5 border-1 rounded-lg border-gray-300 bg-gray-100"
+                            type="password" name="password" id="password" placeholder="Your password here" autofocus>
+                            <p id="errorMsg" class="hidden mt-1 text-sm leading-6 text-red-600"></p>
                         </div>
                         <!-- Modal footer -->
-                        <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <div class="flex items-center p-3 space-x-2 border-t border-gray-200 rounded-b">
                             <button
-                                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            id="confirm-password"
+                            class="text-white text-sm bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg px-4 py-2 text-center">
                                 Confirm Password
                             </button>
                         </div>
@@ -153,6 +156,7 @@
 
 $(document).ready(function(){
     var id = null;
+    var username = null;
     $('body').on('click','#dropdownDefaultButton', function() {
          id = $(this).attr("data-id");
     });
@@ -194,7 +198,36 @@ $(document).ready(function(){
             }
         });
     });
-    $('body').on('click', '.')
+
+    $('body').on('click', '#editbtn', function(){
+        id = $(this).attr("data-id");
+        username = $(this).attr("data-username");
+    });
+    $('body').on('click', '#confirm-password', function(){
+        $.ajax({
+            url: '{{ route('confirm-password-edit') }}',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            data: {
+                id: id,
+                username: username,
+                password: document.getElementById('password').value
+            },
+
+            success: function(response) {
+                console.log('success');
+                window.location.href = response.url;
+            },
+            error: function(error) {
+                var errorMsg=document.getElementById('errorMsg');
+                errorMsg.classList.remove('hidden');
+                errorMsg.textContent=error.responseJSON.error;
+            }
+        });  
+    });
+
 })
 </script>
 
