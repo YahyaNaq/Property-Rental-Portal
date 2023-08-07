@@ -1,6 +1,6 @@
 <x-agent.layout title="Add a new Property">
     <section class="min-h-full">
-        @include('agent/properties/_nav')
+        @include('agent/properties/_nav', ['username' => Auth::guard('agents')->user()->username])
         @include('dashboard/_header', ['heading' => 'Add a new Property'])
         <main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">

@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,6 +21,5 @@ class AuthAdminAgent
             return $next($request);
         }
 
-        throw new AuthenticationException('Unauthenticated.');
     }
 }

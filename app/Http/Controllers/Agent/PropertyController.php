@@ -17,6 +17,7 @@ use Illuminate\Validation\Rule;
 
 class PropertyController extends Controller
 {
+
     protected function getValidationRules()
     {
         return [
@@ -92,28 +93,30 @@ class PropertyController extends Controller
     public function edit($username, $id)
     {
         $property = Property::findOrFail($id);
+
+        if (Auth::guard('agents')->check()) {
+            if ($username!=$property->agent->username) {
+                abort(403);
+            }
+        }
         
-        // if (Auth::guard('agents')->check()) {
-            //     if (!Gate::allows('edit-property', $property)) {
-                //         abort(403);
-                //     }
-                // }
-                
         return view('agent.properties.edit')
         ->with('property', $property)
         ->with('username', $username)
         ->with('categories', Category::pluck('name'))
         ->with('locations', Location::all(['city_id','name']));
     }
-            
+    
     public function update(Request $request, $username, $id)
     {
         $property = Property::findOrFail($id);
         
-        if (!Gate::allows('edit-property', $property)) {
-            abort(403);
+        if (Auth::guard('agents')->check()) {
+            if ($username!=$property->agent->username) {
+                abort(403);
+            }
         }
-
+        
         $data = $request->all();
         $data['category_id'] = Category::where('name', $data['category'])->first(['id'])->id;
         $data['location_id'] = Location::where('name', $data['location'])->first(['id'])->id;

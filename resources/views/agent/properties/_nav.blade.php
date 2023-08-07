@@ -6,7 +6,7 @@
                     <div class="ml-10 flex items-baseline space-x-4">
                     @php 
                         // To update after updating this project to laravel 10
-                        $username=Auth::user()->username;
+                        // $username=Auth::user()->username;
                         $baseUrl=URL::to('/') . "/$username/properties";
                         $curUrl = url()->current();
                         // dd('Base: ' . $baseUrl, "Active: " .$curUrl);

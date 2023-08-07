@@ -32,17 +32,23 @@ Route::controller(HomeController::class)->group(function(){
     Route::get('/', 'index')->name('home');
 });
 
+Route::middleware(['guest', 'guest:admins', 'guest:agents'])->group(function() {
+    Route::get('/login', [SessionsController::class, 'create']);
+    Route::post('/login', [SessionsController::class, 'store'])->name('login');
 
-Route::controller(RegisterController::class)->middleware('guest')->group(function (){
-    Route::get('/register', 'create');
-    Route::post('/register', 'store');
+    Route::get('agent/login', [AgentSessionsController::class, 'create'])->name('agent.login');
+    Route::post('agent/login', [AgentSessionsController::class, 'store'])->name('agent.store');
+    
+    Route::get('/admin/login', [AdminSessionsController::class, 'create'])->name('admin.login');
+    Route::post('/admin/login', [AdminSessionsController::class, 'store'])->name('admin.store');
+    
+    Route::get('/register', [RegisterController::class, 'create']);
+    Route::post('/register', [RegisterController::class, 'store']);
 });
 
-Route::controller(AgentRegisterController::class)->middleware('auth:admins')->group(function (){
-    Route::get('/agent/register', 'create');
-    Route::post('/agent/register', 'store')->name('agent.register');
-});
-
+Route::post('/logout', [SessionsController::class, 'destroy'])->middleware('auth');
+Route::post('/agent/logout', [AgentSessionsController::class, 'destroy'])->name('agent.logout')->middleware('auth:agents');
+Route::post('/admin/logout', [AdminSessionsController::class, 'destroy'])->name('admin.logout')->middleware('auth:admins');
 
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
     Route::get('/dashboard', 'index');
@@ -52,15 +58,18 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::post('/dashboard/offers-accepted/select/{id}', 'select_offer')->name('offers.select');
 });
 
-Route::controller(AdminDashboardController::class)->middleware('auth:admins')->group(function(){
-    Route::get('admin/dashboard', 'index');
-    Route::get('admin/dashboard/verify-property', 'verify_properties');
-    Route::post('admin/dashboard/verify-property/verify', 'verify_property')->name('verify-property');
-    Route::post('admin/dashboard/verify-property/reject', 'reject_property')->name('reject-property');
-    Route::post('admin/dashboard/accept-offer/accept', 'accept_offer')->name('accept-offer');
-    Route::post('admin/dashboard/accept-offer/reject', 'reject_offer')->name('reject-offer');
-    Route::get('admin/dashboard/agents', 'agents_list');
-    Route::get('admin/dashboard/rent-offers', 'offers_list');
+Route::middleware('auth:admins')->group(function(){
+    Route::get('/agent/register', [AgentRegisterController::class, 'create']);
+    Route::post('/agent/register', [AgentRegisterController::class, 'store'])->name('agent.register');
+
+    Route::get('admin/dashboard', [AdminDashboardController::class, 'index']);
+    Route::get('admin/dashboard/verify-property', [AdminDashboardController::class, 'verify_properties']);
+    Route::post('admin/dashboard/verify-property/verify', [AdminDashboardController::class, 'verify_property'])->name('verify-property');
+    Route::post('admin/dashboard/verify-property/reject', [AdminDashboardController::class, 'reject_property'])->name('reject-property');
+    Route::post('admin/dashboard/accept-offer/accept', [AdminDashboardController::class, 'accept_offer'])->name('accept-offer');
+    Route::post('admin/dashboard/accept-offer/reject', [AdminDashboardController::class, 'reject_offer'])->name('reject-offer');
+    Route::get('admin/dashboard/agents', [AdminDashboardController::class, 'agents_list']);
+    Route::get('admin/dashboard/rent-offers', [AdminDashboardController::class, 'offers_list']);
 });
 
 Route::controller(AgentDashboardController::class)->middleware('auth:agents')->group(function(){
@@ -69,41 +78,27 @@ Route::controller(AgentDashboardController::class)->middleware('auth:agents')->g
     Route::get('/agent/dashboard/ad-views', 'views_list');
 });
 
-Route::controller(PropertyController::class)->middleware('auth:agents')->group(function(){
+Route::middleware('auth.adminagent')->group(function(){
+    Route::get('/{username}/properties', [PropertyController::class, 'index']);
 
-    Route::get('/{username}/properties', 'index');
+    Route::get('/{username}/properties/edit/{id}', [PropertyController::class, 'edit']);
+    Route::patch('/{username}/properties/edit/{id}', [PropertyController::class, 'update'])->name('update');
     
-    Route::get('/{username}/properties/{id}', 'show')->withoutMiddleware('auth:agents')
-                                                        ->name('properties.show')
-                                                        ->where('id', '[0-9]+');
-
-    Route::get('/{username}/properties/{id}/make-offer', 'createOffer')->withoutMiddleware('auth:agents')->middleware('auth')->where('id', '[0-9]+');
-    Route::post('/{username}/properties/{id}/make-offer', 'storeOffer')->name('store-offer')->withoutMiddleware('auth:agents')->where('id', '[0-9]+');
-    
-    Route::get('/{username}/properties/new', 'create');
-    Route::post('/{username}/properties/new','store')->name('store');
-    
-    Route::get('/{username}/properties/edit/{id}', 'edit')->withoutMiddleware('auth:agents')->middleware('auth.adminagent');
-    Route::patch('/{username}/properties/edit/{id}', 'update')->name('update');
-    
-    Route::get('/{username}/properties/delete/{id}', 'delete');
-    Route::get('/{username}/properties/confirm-delete-property/{id}', 'show');
-    Route::delete('/{username}/properties/confirm-delete/{id}', 'destroy')->name('destroy');
+    Route::get('/{username}/properties/delete/{id}', [PropertyController::class, 'delete']);
+    Route::delete('/{username}/properties/confirm-delete/{id}', [PropertyController::class, 'destroy'])->name('destroy');
 });
 
+Route::get('/{username}/properties/{id}', [PropertyController::class, 'show'])->name('properties.show')->where('id', '[0-9]+');
 
-Route::get('/login', [SessionsController::class, 'create'])->middleware(['guest', 'guest:admins', 'guest:agents']);
-Route::post('/login', [SessionsController::class, 'store'])->middleware(['guest', 'guest:admins', 'guest:agents'])->name('login');
-Route::post('/logout', [SessionsController::class, 'destroy'])->middleware('auth');
+Route::middleware('auth:agents')->group(function(){
+    Route::get('/{username}/properties/new', [PropertyController::class, 'create']);
+    Route::post('/{username}/properties/new', [PropertyController::class, 'store'])->name('store');
+});
 
-Route::get('agent/login', [AgentSessionsController::class, 'create'])->name('agent.login')->middleware(['guest', 'guest:admins']);
-Route::post('agent/login', [AgentSessionsController::class, 'store'])->name('agent.store')->middleware(['guest', 'guest:admins']);
-Route::post('agent/logout', [AgentSessionsController::class, 'destroy'])->name('agent.logout')->middleware('auth:agents');
-
-Route::controller(AdminSessionsController::class)->group(function (){
-    Route::get('/admin/login', 'create')->name('admin.login');
-    Route::post('/admin/login', 'store')->name('admin.store');
-    Route::post('/admin/logout', 'destroy')->name('admin.logout');
+Route::middleware('auth')->group(function(){
+    Route::get('/{username}/properties/{id}/make-offer', [PropertyController::class, 'createOffer'])->where('id', '[0-9]+');
+    Route::post('/{username}/properties/{id}/make-offer', [PropertyController::class, 'storeOffer'])->where('id', '[0-9]+')->name('store-offer');
+    
 });
 
 Route::controller(ProfileController::class)->group(function (){

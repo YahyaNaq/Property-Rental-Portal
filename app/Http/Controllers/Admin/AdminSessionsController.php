@@ -10,16 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 class AdminSessionsController extends Controller
 {
-    public function __construct()
-    {
-        return $this->middleware('guest:admins')->except('destroy');
-    }
-
-    public function guard() 
-    {
-        return Auth::guard('admins');
-    }
-
+    
     public function create()
     {
         return view('admin.sessions.create');

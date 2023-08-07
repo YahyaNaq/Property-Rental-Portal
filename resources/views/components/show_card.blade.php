@@ -19,7 +19,7 @@
                     <h1 class="text-lg">PKR</h1>
                     <h5 class="text-3xl">{{ number_format($property['monthly_rent']) }}</h5>
                 </span>
-                @if(!$property['is_rented'])
+                @if(!$property['is_rented'] && Auth::check())
                     <a href="/{{$username}}/properties/{{$property['id']}}/make-offer" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Make Offer</a>
                 @endif
             </div>
@@ -27,14 +27,8 @@
         <div class="w-full bg-white rounded-lg">
             <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
                 <li class="mr-2">
-                    <a href="#about" id="selected" type="button" onclick="changeTab(event)" class="text-blue-600 border-b-2 border-blue-600 cursor-pointer inline-block font-medium p-4 rounded-tl-lg hover:bg-gray-100">About</a>
+                    <a href="#about" id="selected" type="button" class="text-blue-600 border-b-2 border-blue-600 cursor-pointer inline-block font-medium p-4 rounded-tl-lg hover:bg-gray-100">About</a>
                 </li>
-                {{-- <li class="mr-2">
-                    <a type="button" onclick="changeTab(event)" class="cursor-pointer inline-block p-4 hover:text-gray-600 hover:bg-gray-100">Photos</a>
-                </li>
-                <li class="mr-2">
-                    <a type="button" onclick="changeTab(event)" class="cursor-pointer inline-block p-4 hover:text-gray-600 hover:bg-gray-100">Contact</a>
-                </li> --}}
             </ul>
             <div>
             {{-- About --}}
