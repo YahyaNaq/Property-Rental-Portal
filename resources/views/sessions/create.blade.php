@@ -44,7 +44,11 @@
                         </div>
 
                         <div class="text-sm">
-                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Forgot your password?</a>
+                            <button id="forgetPassword" type="button"
+                            data-modal-target="defaultModal" data-modal-toggle="defaultModal"
+                            class="font-medium text-indigo-600 hover:text-indigo-500">
+                                Forgot your password?
+                            </button>
                         </div>
                     </div>
 
@@ -63,7 +67,75 @@
                     <h5 class="tracking-tight">Don't have an account?</h5>
                     <a href="/register" class="font-semibold text-indigo-900 hover:scale-x-[1.025]">Register now!</a>
                 </div>
+
+                <!-- Main modal -->
+                <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative w-full max-w-sm max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-gray-50 rounded-lg shadow">
+                            <!-- Modal header -->
+                            <div class="flex items-start justify-between p-4 border-b rounded-t">
+                                <h3 class="text-xl font-semibold text-gray-900">
+                                    Send Password Resetting Link
+                                </h3>
+                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-6 h-6 ml-auto inline-flex justify-center items-center" data-modal-hide="defaultModal">
+                                    <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="p-4 space-y-3">
+                                <p class="text-base leading-relaxed text-gray-500">
+                                    Enter the email you want to send the link at  
+                                </p>
+                                <input class="text-sm px-2.5 py-1.5 border-1 rounded-lg border-gray-300 bg-gray-100"
+                                type="email" name="email" id="emailForSendingLink" placeholder="Email address" autofocus>
+                                <p id="errorMsg" class="hidden mt-1 text-sm leading-6 text-red-600"></p>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="flex items-center p-3 space-x-2 border-t border-gray-200 rounded-b">
+                                <button
+                                id="sendEmail"
+                                class="text-white text-sm bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg px-4 py-2 text-center">
+                                    Send Email
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </section>
 </x-layout>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+$(document).ready(function () {
+    $('body').on('click', '#sendEmail', function(){
+        $.ajax({
+            url: '{{ route('password.email') }}',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            data: {
+                email: document.getElementById('emailForSendingLink').value
+            },
+
+            success: function(response) {
+                window.location.href = response.url;
+                // alert('Email Sent');
+            },
+            error: function(error) {
+                var errorMsg=document.getElementById('errorMsg');
+                errorMsg.classList.remove('hidden');
+                errorMsg.textContent=error.responseJSON.error;
+            }
+        });  
+    });
+});
+
+</script>

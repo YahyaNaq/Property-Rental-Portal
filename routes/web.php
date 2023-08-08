@@ -10,6 +10,7 @@ use App\Http\Controllers\Agent\AgentSessionsController;
 use App\Http\Controllers\Agent\PropertyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
@@ -35,6 +36,10 @@ Route::controller(HomeController::class)->group(function(){
 Route::middleware(['guest', 'guest:admins', 'guest:agents'])->group(function() {
     Route::get('/login', [SessionsController::class, 'create']);
     Route::post('/login', [SessionsController::class, 'store'])->name('login');
+    Route::post('/forgot-password', [SessionsController::class, 'forgot_password'])->name('password.email');
+    Route::get('/forgot-password', [PasswordResetController::class, 'show'])->name('email.sent');
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'create'])->name('password.reset.create');
+    Route::post('/reset-password/{token}', [PasswordResetController::class, 'store'])->name('password.reset.store');
 
     Route::get('agent/login', [AgentSessionsController::class, 'create'])->name('agent.login');
     Route::post('agent/login', [AgentSessionsController::class, 'store'])->name('agent.store');
@@ -80,8 +85,7 @@ Route::controller(AgentDashboardController::class)->middleware('auth:agents')->g
 });
 
 Route::middleware('auth.adminagent')->group(function(){
-    Route::get('/{username}/properties', [PropertyController::class, 'index']);
-
+    
     Route::get('/{username}/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
     Route::patch('/{username}/properties/edit/{id}', [PropertyController::class, 'update'])->name('update');
     
@@ -89,6 +93,7 @@ Route::middleware('auth.adminagent')->group(function(){
     Route::delete('/{username}/properties/confirm-delete/{id}', [PropertyController::class, 'destroy'])->name('destroy');
 });
 
+Route::get('/{username}/properties', [PropertyController::class, 'index'])->middleware('auth:agents');
 Route::get('/{username}/properties/{id}', [PropertyController::class, 'show'])->name('properties.show')->where('id', '[0-9]+');
 
 Route::middleware('auth:agents')->group(function(){

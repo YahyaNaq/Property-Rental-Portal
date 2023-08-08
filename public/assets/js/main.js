@@ -5,13 +5,6 @@ const toggleMenu = () => {
     menu.classList.toggle('hidden');
 }
 
-const toggleDropdown = (event, id) => {
-    // var dropdown = event.target.nextElementSibling.classList.toggle('hidden');
-    // let dropdown = document.getElementsByClassName('test');
-    // console.log(id);
-    // dropdown.classList.add('hidden');
-}
-
 const loadMore = (event) => {
     document.getElementById("more_desc").classList.toggle('hidden');
     document.getElementById("more_dots").classList.toggle('hidden');
@@ -19,11 +12,6 @@ const loadMore = (event) => {
     let btn=event.target;
     (btn.textContent=='See less') ? btn.textContent='See more' : btn.textContent='See less'; 
 
-}
-
-const showNotifications = () => {
-    let notif = document.getElementById("notif");
-    notif.classList.toggle('hidden');
 }
 
 const changeTab = (event) => {

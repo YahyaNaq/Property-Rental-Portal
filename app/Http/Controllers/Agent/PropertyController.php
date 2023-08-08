@@ -92,15 +92,20 @@ class PropertyController extends Controller
 
     public function edit($username, $id)
     {
+        $view='admin.properties.edit';
+
         $property = Property::findOrFail($id);
 
         if (Auth::guard('agents')->check()) {
             if ($username!=$property->agent->username) {
                 abort(403);
             }
+            $view='agent.properties.edit';
         }
         
-        return view('agent.properties.edit')
+        
+
+        return view($view)
         ->with('property', $property)
         ->with('username', $username)
         ->with('categories', Category::pluck('name'))
