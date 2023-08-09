@@ -98,9 +98,12 @@
                             <div class="flex items-center p-3 space-x-2 border-t border-gray-200 rounded-b">
                                 <button
                                 id="sendEmail"
-                                class="text-white text-sm bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg px-4 py-2 text-center">
+                                class="text-white text-sm bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg px-4 py-2 text-center disabled:bg-indigo-300 disabled:bg-indigo disabled:cursor-wait">
                                     Send Email
                                 </button>
+                                <h5 id="successMsg" class="font-sm font-semibold hidden">
+                                    Email successfully sent
+                                </h5>
                             </div>
                         </div>
                     </div>
@@ -115,6 +118,8 @@
 
 $(document).ready(function () {
     $('body').on('click', '#sendEmail', function(){
+
+        
         $.ajax({
             url: '{{ route('password.email') }}',
             headers: {
@@ -124,9 +129,13 @@ $(document).ready(function () {
             data: {
                 email: document.getElementById('emailForSendingLink').value
             },
-
+            
             success: function(response) {
-                window.location.href = response.url;
+                $(this).prop('disabled', true);
+                // window.location.href = response.url;
+                errorMsg.classList.remove('hidden');
+                $('#sendEmail').addClass('hidden')
+                $('#successMsg').removeClass('hidden');
                 // alert('Email Sent');
             },
             error: function(error) {

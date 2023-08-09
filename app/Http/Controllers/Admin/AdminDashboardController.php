@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Agent\PropertyController;
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Property;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminDashboardController extends Controller
 {

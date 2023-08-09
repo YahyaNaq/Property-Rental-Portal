@@ -36,7 +36,7 @@ Route::controller(HomeController::class)->group(function(){
 Route::middleware(['guest', 'guest:admins', 'guest:agents'])->group(function() {
     Route::get('/login', [SessionsController::class, 'create']);
     Route::post('/login', [SessionsController::class, 'store'])->name('login');
-    Route::post('/forgot-password', [SessionsController::class, 'forgot_password'])->name('password.email');
+    Route::post('/forgot-password', [PasswordResetController::class, 'forgot_password'])->name('password.email');
     Route::get('/forgot-password', [PasswordResetController::class, 'show'])->name('email.sent');
     Route::get('/reset-password/{token}', [PasswordResetController::class, 'create'])->name('password.reset.create');
     Route::post('/reset-password/{token}', [PasswordResetController::class, 'store'])->name('password.reset.store');
