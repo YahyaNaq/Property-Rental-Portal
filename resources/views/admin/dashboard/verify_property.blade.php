@@ -64,33 +64,37 @@
                                         </a>
                                     </td>
                                     <td class="px-5 py-4">
-                                        <a 
-                                        href="/{{$property->agent->username}}/properties/{{$property->id}}"
+                                        <button
+                                        id="showbtn" data-id="{{ $property['id'] }}"
+                                        data-modal-target="large-modal" data-modal-toggle="large-modal"
                                         class="font-medium text-green-600 hover:text-green-800">
                                             Show
-                                        </a>
+                                        </button>
                                     </td>
                                     <td class="px-4 py-4 pr-2">                                     
-                                        <button id="dropdownDefaultButton" data-id="{{$property['id']}}" data-dropdown-toggle="dropdown" class="w-24 justify-center flex gap-1 items-center px-2.5 py-1.5 border-yellow-500 border rounded-lg font-medium bg-yellow-100 text-gray-600 hover:text-black dropdown_{{$property['id']}}" type="button">Pending <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                                        </svg></button>
+                                        <button id="dropdownDefaultButton" data-id="{{$property['id']}}" data-dropdown-toggle="dropdown" class="w-24 justify-center flex gap-1 items-center px-2.5 py-1.5 border-yellow-500 border rounded-lg font-medium bg-yellow-100 text-gray-600 hover:text-black dropdownbtn_{{$property['id']}}" type="button">
+                                            Pending
+                                            <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                            </svg>
+                                        </button>
                                         <!-- Dropdown menu -->
-                                        <div id="dropdown" class="dropdown_{{$property['id']}} z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-24">
+                                        <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-24">
                                             <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
-                                            <li>
-                                                <button id="{{$property['id']}}" class="w-full verify block px-3 py-1.5 hover:text-black hover:font-medium">
-                                                    Verify
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button id="{{$property['id']}}" class="w-full reject block px-3 py-1.5 hover:text-black hover:font-medium">
-                                                    Reject
-                                                </button>
-                                            </li>
+                                                <li>
+                                                    <button id="{{$property['id']}}" class="w-full verify block px-3 py-1.5 hover:text-black hover:font-medium">
+                                                        Verify
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button id="{{$property['id']}}" class="w-full reject block px-3 py-1.5 hover:text-black hover:font-medium">
+                                                        Reject
+                                                    </button>
+                                                </li>
                                             </ul>
                                         </div>
-                                        <h5 class="hidden v-status px-4 font-semibold text-green-700" id="verify_{{$property['id']}}">Verified</h5>
-                                        <h5 class="hidden r-status px-4 font-semibold text-red-600" id="reject_{{$property['id']}}">Rejected</h5>
+                                        <h5 class="hidden px-4 font-semibold text-green-700" id="verify_{{$property['id']}}">Verified</h5>
+                                        <h5 class="hidden px-4 font-semibold text-red-600" id="reject_{{$property['id']}}">Rejected</h5>
                                     </td>
                                 </tr>
                             @endforeach
@@ -141,7 +145,74 @@
                 </div>
             </div>
   
-                
+            <!-- Large Modal -->
+            <div id="large-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-4xl max-h-full">
+                    <!-- Modal content -->
+                    <div id="modal-content" data-property-id="" class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-5 pb-0 rounded-t dark:border-gray-600">
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="large-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="pb-8 px-5 md:px-8">
+                            <h5 id="prop-title" class="text-3xl font-semibold capitalize tracking-tight text-gray-900 pb-2"></h5>
+                            <h5 id="prop-category" class="text-sm w-max font-medium px-2 py-1 tracking-tight bg-gray-200 rounded-lg text-gray-700"></h5>
+                            <div class="flex items-center gap-6 my-5">
+                                <a class="flex items-center gap-2">
+                                    <img src="{{asset("assets/images/dp.jpg")}}" class="h-8 rounded-full" alt="">
+                                    <h5 id="prop-agent" class="text-md font-medium"></h5>
+                                </a>
+                                <h1 class="text-sm text-gray-500">Posted <span id="prop-time"></span> </h1>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="flex items-end gap-x-1 font-semibold text-gray-900">
+                                    <h1 class="text-lg">PKR</h1>
+                                    <h5 id="prop-rent" class="text-3xl"></h5>
+                                </span>
+                            </div>
+                            <div class="w-full bg-white rounded-lg">
+                                <div>
+                                    <div id="about" class="max-h-88 overflow-auto pt-6 bg-white rounded-lg">
+                                        <p id="prop-desc" class="text-gray-600"></p>
+                                        <h5 class="text-lg font-semibold mt-6 mb-2">Highlighted details</h5>
+                                        <div class="flex flex-wrap gap-x-24 gap-2 mb-3 text-gray-600">
+                                            <div class="flex items-center gap-2">
+                                                <img src="{{asset("assets/icons/bed.svg")}}" class="grayscale h-4" alt="">
+                                                <h5 class="mr-2 text-gray-700">Bedrooms</h5>
+                                                <h5 id="prop-bed" class="text-gray-800 font-medium"></h5>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <img src="{{asset("assets/icons/bath.svg")}}" class="h-4" alt="">
+                                                <h5 class="mr-2 text-gray-700">Bathrooms</h5>
+                                                <h5 id="prop-bath" class="text-gray-800 font-medium"></h5>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <img src="{{asset("assets/icons/area.svg")}}" class="h-[1.158rem]" alt="">
+                                                <h5 class="mr-2 text-gray-700">Area</h5>
+                                                <h5 class="text-gray-800 font-medium">
+                                                    <span id="prop-area"></span> sq ft
+                                                </h5>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <img src="{{asset("assets/icons/location.svg")}}" class="h-4" alt="">
+                                                <h5 class="mr-2 text-gray-700">Location</h5>
+                                                <h5 id="prop-location" class="text-gray-800 font-medium"></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                          
             </div>
         </main>
         @if(session()->has('success'))
@@ -157,6 +228,14 @@
 $(document).ready(function(){
     var id = null;
     var username = null;
+    function diffForHumans(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString();
+    }
+    function number_format(number, scale = 1) {
+        return (number * scale).toLocaleString();
+    }
+
     $('body').on('click','#dropdownDefaultButton', function() {
          id = $(this).attr("data-id");
     });
@@ -171,7 +250,8 @@ $(document).ready(function(){
             data: { id: id },
 
             success: function(response) {
-                $('.dropdown'+ '_'+ id).addClass('hidden')
+                $('.dropdownbtn'+ '_'+ id).addClass('hidden')
+                $('#dropdown').addClass('hidden')
                 $('#verify' + '_'+ id).removeClass('hidden')
 
             },
@@ -190,7 +270,8 @@ $(document).ready(function(){
             data: { id: id },
 
             success: function(response) {
-                $('.dropdown'+ '_'+ id).addClass('hidden')
+                $('.dropdownbtn'+ '_'+ id).addClass('hidden')
+                $('#dropdown').addClass('hidden')
                 $('#reject' + '_'+ id).removeClass('hidden')
             },
             error: function(error) {
@@ -228,6 +309,23 @@ $(document).ready(function(){
         });  
     });
 
+    $('body').on('click', '#showbtn', function(){
+        id = $(this).attr("data-id");
+        modal = $('#large-modal');
+        var property = @json($properties)[id-1];
+
+        modal.find('#prop-title').text(property.title);
+        modal.find('#prop-category').text(property.category.name);
+        modal.find('#prop-agent').text(property.agent.full_name);
+        modal.find('#prop-time').text(diffForHumans(property.created_at));
+        modal.find('#prop-rent').text(number_format(property.monthly_rent));
+        modal.find('#prop-desc').text(property.description);
+        modal.find('#prop-bed').text(property.bedrooms);
+        modal.find('#prop-bath').text(property.bathrooms);
+        modal.find('#prop-area').text(property.area);
+        modal.find('#prop-location').text(property.location.name + ", " + property.location.city.name);
+        
+    });
 })
 </script>
 
