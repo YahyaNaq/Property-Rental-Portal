@@ -53,15 +53,19 @@ class PasswordResetController extends Controller
         $token = Str::random(64);
         $email = $request->input('email');
 
-        Mail::to($email)->send(new PasswordReset($token));
+        try {
+            Mail::to($email)->send(new PasswordReset($token));
+            DB::table('password_resets')->insert([
+                'email' => $email,
+                'token' => $token, 
+                'created_at' => now()
+            ]);
+            
+            return response()->json(['msg' => "Email successfully sent at $email"], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while sending the email, Try Again'], 500);
+        }
 
-        DB::table('password_resets')->insert([
-            'email' => $email,
-            'token' => $token, 
-            'created_at' => now()
-        ]);
-        
-        $url = route('email.sent', ['email' => $email]);
-        return response()->json(['url' => $url], 200);
     }
 }

@@ -101,8 +101,7 @@
                                 class="text-white text-sm bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg px-4 py-2 text-center disabled:bg-indigo-300 disabled:bg-indigo disabled:cursor-wait">
                                     Send Email
                                 </button>
-                                <h5 id="successMsg" class="font-sm font-semibold hidden">
-                                    Email successfully sent
+                                <h5 id="successMsg" class="text-sm font-semibold hidden">
                                 </h5>
                             </div>
                         </div>
@@ -119,7 +118,9 @@
 $(document).ready(function () {
     $('body').on('click', '#sendEmail', function(){
 
-        
+        $(this).prop('disabled', true);
+        var errorMsg = $('#errorMsg');
+
         $.ajax({
             url: '{{ route('password.email') }}',
             headers: {
@@ -128,20 +129,18 @@ $(document).ready(function () {
             method: 'POST',
             data: {
                 email: document.getElementById('emailForSendingLink').value
-            },
+            },  
             
             success: function(response) {
-                $(this).prop('disabled', true);
-                // window.location.href = response.url;
-                errorMsg.classList.remove('hidden');
-                $('#sendEmail').addClass('hidden')
+                errorMsg.addClass('hidden');
                 $('#successMsg').removeClass('hidden');
-                // alert('Email Sent');
+                $('#successMsg').text(response.msg);
+                $('#sendEmail').addClass('hidden')
             },
             error: function(error) {
-                var errorMsg=document.getElementById('errorMsg');
-                errorMsg.classList.remove('hidden');
-                errorMsg.textContent=error.responseJSON.error;
+                $('#sendEmail').prop('disabled', false);
+                errorMsg.removeClass('hidden');
+                errorMsg.text(error.responseJSON.error);
             }
         });  
     });
